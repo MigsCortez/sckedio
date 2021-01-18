@@ -12,9 +12,7 @@ class TrustProxies extends Middleware
      *
      * @var array|string|null
      */
-    protected $proxies = [
-        'sckedio.herokuapp.com',
-    ];
+    protected $proxies;
 
     /**
      * The headers that should be used to detect proxies.
