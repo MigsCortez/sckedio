@@ -27,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
         ResetPassword::createUrlUsing(function($notifiable, $token){
             return env('APP_URL')."/password-reset/{$token}";
         });
+        Schema::defaultStringLength(191);
     }
 }
