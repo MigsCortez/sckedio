@@ -4,7 +4,8 @@ use Illuminate\Support\Str;
 
 return [
     // Custom
-    $url=parse_url(getenv('CLEARDB_DATABASE_URL')),
+    $dbase_url = getenv('CLEARDB_DATABASE_URL'),
+    $url=parse_url($dbase_url),
 
     $host = $url["host"],
     $username = $url["user"],
@@ -63,7 +64,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => $url,
+            'url' => $dbase_url,
             'host' => $host,
             'port' => env('DB_PORT', '3306'),
             'database' => $database,
