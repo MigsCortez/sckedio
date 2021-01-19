@@ -12,7 +12,7 @@ return [
     $database = substr($url["path"], 1),
 
     // Connect to heroku dbase
-    'heroku_dbase' => array(
+    'mysql' => array(
         'driver' => 'mysql',
         'host' => $host,
         'database' => $database,
@@ -33,7 +33,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'heroku_dbase'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
