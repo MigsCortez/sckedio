@@ -4,7 +4,7 @@ use Illuminate\Support\Str;
 
 return [
     // Custom
-    $DATABASE_URL=parse_url(getenv('CLEARDB_DATABASE_URL')),
+    $url=parse_url(getenv('CLEARDB_DATABASE_URL')),
 
     $host = $url["host"],
     $username = $url["user"],
