@@ -12,16 +12,16 @@ return [
     $database = substr($url["path"], 1),
 
     // Connect to heroku dbase
-    'mysql' => array(
-        'driver' => 'mysql',
-        'host' => $host,
-        'database' => $database,
-        'username' => $username,
-        'password' => $password,
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix' => '',
-    ),
+    // 'mysql' => array(
+    //     'driver' => 'mysql',
+    //     'host' => $host,
+    //     'database' => $database,
+    //     'username' => $username,
+    //     'password' => $password,
+    //     'charset' => 'utf8',
+    //     'collation' => 'utf8_unicode_ci',
+    //     'prefix' => '',
+    // ),
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -63,12 +63,12 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'url' => $url,
+            'host' => $host,
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => $database,
+            'username' => $username,
+            'password' => $password,
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
