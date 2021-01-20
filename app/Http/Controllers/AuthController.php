@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+// temporary
+use Illuminate\Support\Facades\Auth;
+// END
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Services\UserAuthentication\UserAuthenticationService;
 use App\Http\Requests\UserRequest\SignUpRequest;
 use App\Http\Requests\UserRequest\LogInRequest;
 
-// temporary
-use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
 
@@ -49,7 +51,7 @@ class AuthController extends Controller
         $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
                 'client_id' => env('PROXY_OAUTH_CLIENT_ID'),
                 'client_secret' => env('PROXY_OAUTH_CLIENT_SECRET'),
-                'grant_type' => env('PROXY_OAUTH_GRANT_TYPE'),
+                'grant_type' => 'password',
                 'username' => $request->username,
                 'password' => $request->password,
                 'scopes' => '[*]'
