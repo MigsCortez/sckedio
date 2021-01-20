@@ -8,6 +8,8 @@ use App\Http\Controllers\Services\UserAuthentication\UserAuthenticationService;
 use App\Http\Requests\UserRequest\SignUpRequest;
 use App\Http\Requests\UserRequest\LogInRequest;
 
+// temporary
+use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
