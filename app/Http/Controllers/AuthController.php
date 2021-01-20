@@ -49,7 +49,7 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'
             ], 401);
         
-        $response = Http::post(env('APP_URL') . 'oauth/token', [
+        $response = Http::post(env('APP_URL') . '/oauth/token', [
                 'client_id' => env('PROXY_OAUTH_CLIENT_ID'),
                 'client_secret' => env('PROXY_OAUTH_CLIENT_SECRET'),
                 'grant_type' => 'password',
