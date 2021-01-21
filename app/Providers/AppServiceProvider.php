@@ -25,10 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(config('app.env') === 'production')
-        {
-            \URL::forceScheme('https');
-        }
+        // if(config('app.env') === 'production')
+        // {
+        //     \URL::forceScheme('https');
+        // }
         
         ResetPassword::createUrlUsing(function($notifiable, $token){
             return env('APP_URL')."/password-reset/{$token}";
