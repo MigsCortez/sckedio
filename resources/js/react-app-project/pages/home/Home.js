@@ -8,10 +8,14 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const Home = (props) => {
+
     useEffect(() => {
     }, []);
+
+    let history = useHistory();
 
     const styles = {
         topSectionBackground: {
@@ -63,7 +67,7 @@ const Home = (props) => {
                                         <Typography variant='h2'>The marketplace for ideas</Typography>
                                         <Typography variant='h5'>Sckedio connects people who have an idea for a product with people who want to build and buy their idea.</Typography>
                                         <Box align="center">
-                                            <Button variant="contained">Submit an idea</Button>
+                                            <Button variant="contained" color="primary" onClick={()=>history.push('/get-started')}>Submit an idea</Button>
                                         </Box>
                                     </Grid>
                                     <Grid item xs={12} md={6}>{/* Small image of man at whiteboard*/}
@@ -99,7 +103,7 @@ const Home = (props) => {
                                     <Typography variant='h2'>Turn your idea into a reality and make money in the process.</Typography>
                                     <Typography variant='h5'>Any idea — fully developed or a shower thought— gives you a chance to make money</Typography>
                                     <Typography variant='h5'>Follow a few easy steps to change the world with your idea</Typography>
-                                    <Button variant="contained">Upload your idea now</Button>
+                                    <Button variant="contained" color="primary" onClick={()=>history.push('/get-started')}>Upload your idea now</Button>
                                     <Grid item container>
                                         <Grid item xs={4}>
                                             <Typography variant='h5' align='center'>Easy upload process</Typography>
@@ -136,7 +140,7 @@ const Home = (props) => {
                                         <Grid item xs={6} md={12}>
                                             <TextField id="form-name" label="Name" variant="outlined" />
                                             <TextField id="form-email" label="Email" variant="outlined" />
-                                            <Button variant="contained">Subscribe</Button>
+                                            <Button variant="contained" color="primary">Subscribe</Button>
                                         </Grid>
                                     </Grid>
 

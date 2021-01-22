@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Design\DesignController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PasswordController;
@@ -50,6 +51,21 @@ Route::group([
         //UserController
         Route::get('show-user', [UserController::class, 'show']);
         Route::put('update-user', [UserController::class, 'update']);
+
+        /**
+         * Designers routes. This is a temporary placeholder, 
+         * we want each role to have limited access depending on  their role.
+         */
+    });
+});
+
+Route::group([
+    'prefix' => 'designer'
+], function() {
+    Route::group([
+        'middleware' => 'auth:api'
+    ], function() {
+        Route::post('create', [DesignController::class, 'create']);
     });
 });
 

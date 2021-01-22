@@ -15,6 +15,7 @@ import Product from './pages/product/Product';
 import Profile from './pages/profile/Profile';
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import Sell from './pages/sell/Sell';
+import GetStarted from './pages/getStarted/GetStarted';
 import auth from './auth';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
@@ -173,6 +174,7 @@ const App = () => {
                         <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} />} />
                         <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} />} />
                         <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} />} />
+                        <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} />} />
                         <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} />} />
                         <Route exact path='/create-account' component={CreateAccount} />
                         <Route exact path='/login' component={() => <Login setLoggedIn={setLoggedIn} tokenTimeKeeper={tokenTimeKeeper} />} />
