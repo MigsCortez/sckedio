@@ -72,7 +72,7 @@ class AuthController extends Controller
             env('APP_URL').'/oauth/token',
             'post'
         );
-
+        $proxy = Route::dispatch($tokenRequest);
         return $proxy;
       }
 
