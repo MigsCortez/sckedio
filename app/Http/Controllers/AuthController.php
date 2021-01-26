@@ -38,27 +38,42 @@ class AuthController extends Controller
       * @return [string] expires_at
       */
 
-      public function login(LogInRequest $request) 
+      public function login(Request $request) 
       {
-        $status = $this->userAuth->handleLogIn($request);
-        return $status;
-        // $credentials = request(['username', 'password']);
-        
-        // if(!Auth::attempt($credentials))
-        //     return response()->json([
-        //         'message' => 'Unauthorized'
-        //     ], 401);
-        
-        // $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
-        //         'client_id' => env('PROXY_OAUTH_CLIENT_ID'),
-        //         'client_secret' => env('PROXY_OAUTH_CLIENT_SECRET'),
-        //         'grant_type' => 'password',
-        //         'username' => $request->username,
-        //         'password' => $request->password,
-        //         'scopes' => '[*]'
-        // ]);
 
-        // return $response->json();
+        // $status = $this->userAuth->handleLogIn($request);
+        // return $status;
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $credentials = request(['username', 'password']);
+        
+        if(!Auth::attempt($credentials))
+        {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $username = $request->username;
+        $password = $request->password;
+
+        $request->request->add([
+            'grant_type' => 'password',
+            'client_id' => config('services.passport.password_client_id'),
+            'client_secret' => config('services.passport.password_client_secret'),
+            'username' => $username,
+            'password' => $password,
+            'scope' => '*'
+        ]);
+        $tokenRequest = Request::create(
+            env('APP_URL').'/oauth/token',
+            'post'
+        );
+
+        return $proxy;
       }
 
       /**
