@@ -59,7 +59,7 @@ class ProxyRequest
             'scopes' => '*',
         ]);
 
-        $proxy = Http::asForm()->post('sckedio-passport.herokuapp.com/oauth/token', $params);
+        $proxy = Http::asForm()->post('https://sckedio-passport.herokuapp.com/oauth/token', $params);
         $this->setHttpOnlyCookie($proxy['refresh_token']);
         
         return $proxy;
