@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 // temporary
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
 // END
 use Exception;
 use Illuminate\Http\Request;
