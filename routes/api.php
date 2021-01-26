@@ -59,15 +59,15 @@ Route::group([
     });
 });
 
-Route::group([
-    'prefix' => 'designer'
-], function() {
-    Route::group([
-        'middleware' => 'auth:api'
-    ], function() {
-        Route::post('create', [DesignController::class, 'create']);
-    });
-});
+// Route::group([
+//     'prefix' => 'designer'
+// ], function() {
+//     Route::group([
+//         'middleware' => 'auth:api'
+//     ], function() {
+//         Route::post('create', [DesignController::class, 'create']);
+//     });
+// });
 
 Route::group([
     'prefix' => 'guest'
