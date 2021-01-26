@@ -40,25 +40,25 @@ class AuthController extends Controller
 
       public function login(LogInRequest $request) 
       {
-        // $status = $this->userAuth->handleLogIn($request);
-        // return $status;
-        $credentials = request(['username', 'password']);
+        $status = $this->userAuth->handleLogIn($request);
+        return $status;
+        // $credentials = request(['username', 'password']);
         
-        if(!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+        // if(!Auth::attempt($credentials))
+        //     return response()->json([
+        //         'message' => 'Unauthorized'
+        //     ], 401);
         
-        $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
-                'client_id' => env('PROXY_OAUTH_CLIENT_ID'),
-                'client_secret' => env('PROXY_OAUTH_CLIENT_SECRET'),
-                'grant_type' => 'password',
-                'username' => $request->username,
-                'password' => $request->password,
-                'scopes' => '[*]'
-        ]);
+        // $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
+        //         'client_id' => env('PROXY_OAUTH_CLIENT_ID'),
+        //         'client_secret' => env('PROXY_OAUTH_CLIENT_SECRET'),
+        //         'grant_type' => 'password',
+        //         'username' => $request->username,
+        //         'password' => $request->password,
+        //         'scopes' => '[*]'
+        // ]);
 
-        return $response->json();
+        // return $response->json();
       }
 
       /**
