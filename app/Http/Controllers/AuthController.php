@@ -39,15 +39,10 @@ class AuthController extends Controller
       * @return [string] expires_at
       */
 
-      public function login(Request $request) 
+      public function login(LogInRequest $request) 
       {
-
         // $status = $this->userAuth->handleLogIn($request);
         // return $status;
-        $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string'
-        ]);
 
         $credentials = request(['username', 'password']);
         
@@ -61,20 +56,20 @@ class AuthController extends Controller
         $username = $request->username;
         $password = $request->password;
 
-        $request->request->add([
-            'grant_type' => 'password',
-            'client_id' => config('services.passport.password_client_id'),
-            'client_secret' => config('services.passport.password_client_secret'),
-            'username' => $username,
-            'password' => $password,
-            'scope' => '*'
-        ]);
         $tokenRequest = Request::create(
             env('APP_URL').'/oauth/token',
-            'post'
+            'POST',
+            [
+                'grant_type' => 'password',
+                'client_id' => config('services.passport.password_client_id'),
+                'client_secret' => config('services.passport.password_client_secret'),
+                'username' => $username,
+                'password' => $password,
+                'scope' => '*'
+            ]
         );
-        $proxy = Route::dispatch($tokenRequest);
-        return $proxy;
+        $response = app()->handle($tokenRequest);
+        return $response;
       }
 
       /**
