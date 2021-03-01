@@ -16,12 +16,8 @@
         "laravel/framework": "^8.12",
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
-<<<<<<< HEAD
-        "laravel/ui": "^3.1"
-=======
         "laravel/ui": "^3.1",
         "spatie/laravel-permission": "^4.0"
->>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1
     },
     "require-dev": {
         "facade/ignition": "^2.5",
