@@ -9,4 +9,8 @@ class IdeaType extends Model
 {
     use HasFactory;
     protected $table = 'idea_types';
+
+    protected $fillable = [
+        'idea_type'
+    ];
 }
