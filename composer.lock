@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "167be429c0e4b4314eb6cd3f6d7d8179",
-=======
     "content-hash": "5ca59050cc5a892666b7e3328a35147d",
->>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3612,8 +3608,6 @@
             "time": "2020-08-18T17:17:46+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "spatie/laravel-permission",
             "version": "4.0.0",
             "source": {
@@ -3692,7 +3686,6 @@
             "time": "2021-01-27T23:03:34+00:00"
         },
         {
->>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.3",
             "source": {
