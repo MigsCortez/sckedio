@@ -29,9 +29,22 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileInfoDisplay = (props) => {
     const classes = useStyles();
-    const { username, firstName, lastName, email, street, city, state, postalCode, country, profilePhoto } = props.userInfo;
+    const { username, firstName, lastName, email, street, city, state, postalCode, country, profilePhoto, roles } = props.userInfo;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const convertRoles = () => {
+        let rolesString = '';
+        for (let i=0;i<roles.length;i++) {
+            const roleCapitalize = roles[i].charAt(0).toUpperCase() + roles[i].slice(1);
+            if (i<(roles.length-1)) {
+                rolesString=rolesString+roleCapitalize + ', ';
+            } else {
+                rolesString=rolesString+roleCapitalize;
+            }
+        }
+        return rolesString;
+    };
 
 
     return (
@@ -57,7 +70,7 @@ const ProfileInfoDisplay = (props) => {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography>
-                            Designer, Buyer
+                            {convertRoles()}
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -158,7 +171,7 @@ const ProfileInfoDisplay = (props) => {
                                 <Divider />
                             </Grid>
                             <Grid item xs={12}>
-                                <Typography className={classes.accounts}>Designer, Buyer</Typography>
+                                <Typography className={classes.accounts}>{convertRoles()}</Typography>
                             </Grid>
                         </Grid>
                         <Grid container item xs={8} >

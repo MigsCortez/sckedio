@@ -1,13 +1,9 @@
-import React, { useEffect } from 'react';
-import NavBar from '../../components/navBar/NavBar';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
+import FeedbackForm from '../../components/feedbackform/feedbackform';
 
 const PageLayout = ({ pageData }) => {
 
@@ -24,30 +20,13 @@ const PageLayout = ({ pageData }) => {
             padding: 70,
             paddingBottom: 0
         },
-        smallWhiteboardImage: {
-            borderColor: 'transparent'
-        },
-        bottomSectionBackground: {
-            height: 600,
-            maxHeight: 1000,
-            backgroundImage: `url(${"../../images/pexels-andreea-ch-1166644.jpg"})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'bottom-center',
-            backgroundRepeat: 'no-repeat',
-            width: `calc(100vw + 40px)`,
-            padding: 0,
-        },
         sectionText: {
             position: 'absolute',
-            padding: 30
+            paddingTop: 30
         },
         middleSection: {
             display: 'flex',
             justifyContent: 'center'
-        },
-        middleSectionBlock: {
-            display: 'flex',
-            flexDirection: 'column',
         }
     };
 
@@ -68,30 +47,31 @@ const PageLayout = ({ pageData }) => {
             </Grid>
             {/*Middle section*/}
             <Grid container>
-                {pageData.main.map(section => (
-                    <>
+                {pageData.main.map((section, i) => (
+                    <Grid item key={i} xs={12} md={6} style={styles.middleSection}>
                         {
                             section.image ?
-                                <Grid item xs={12} md={6} style={styles.middleSection}>{/* Image of artisan drawing on whiteboard*/}
-                                    <Grid style={styles.sectionText} md={4}>
+                                <Grid item style={styles.middleSection}>{/* Image of artisan drawing on whiteboard*/}
+                                    <Grid item style={styles.sectionText} md={4}>
                                         <Typography variant='h4'>{section.title}</Typography>
                                         <Typography variant='h6'>{section.subtitle}</Typography>
                                     </Grid>
-                                    <Box display="flex" justifyContent="center" alignItems="center" backgroundSize="contain">
+                                    <Box display="flex" justifyContent="center" alignItems="center">
                                         <img src={require("../../images/artisan.jpg")} id="artisan-image" width="100%" alt="artisan-image" />
                                     </Box>
                                 </Grid>
                                 :
-                                <Grid item xs={12} md={6} style={styles.middleSectionBlock}>{/* Image of artisan drawing on whiteboard*/}
-                                    <Grid style={styles.sectionText} md={4}>
+                                <Grid item style={styles.middleSection}>{/* Image of artisan drawing on whiteboard*/}
+                                    <Grid item style={styles.sectionText} md={4}>
                                         <Typography variant='h4'>{section.title}</Typography>
                                         <Typography variant='h6'>{section.subtitle}</Typography>
                                     </Grid>
                                 </Grid>
                         }
-                    </>
+                    </Grid>
                 ))}
             </Grid>
+            <FeedbackForm />
         </Grid>
     );
 };

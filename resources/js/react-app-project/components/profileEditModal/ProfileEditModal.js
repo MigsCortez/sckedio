@@ -1,11 +1,14 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -232,7 +235,9 @@ const ProfileEditModal = (props) => {
         newCity,
         newState,
         newPostalCode,
-        newCountry
+        newCountry,
+        newDesigner,
+        newManufacturer
     } = props.newUserInfo;
     const {
         open,
@@ -286,7 +291,7 @@ const ProfileEditModal = (props) => {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                            // disabled
+                            disabled
                             id="username"
                             label="Username"
                             variant='outlined'
@@ -408,6 +413,48 @@ const ProfileEditModal = (props) => {
                             )}
                             fullWidth
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormGroup row>
+                            <FormControlLabel 
+                                control={<Checkbox 
+                                    checked={true} 
+                                    // onChange={} 
+                                    name='buyer' 
+                                    color='primary'
+                                    />}
+                                label='Buyer'
+                                disabled
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox 
+                                    checked={newDesigner} 
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newDesigner: event.target.checked
+                                        }
+                                    )} 
+                                    name='designer' 
+                                    color='primary'
+                                    />}
+                                label='Designer'
+                            />
+                            <FormControlLabel 
+                                control={<Checkbox 
+                                    checked={newManufacturer} 
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newManufacturer: event.target.checked
+                                        }
+                                    )} 
+                                    name='manufacturer' 
+                                    color='primary'
+                                    />}
+                                label='Manufacturer'
+                            />
+                        </FormGroup>
                     </Grid>
                 </Grid>
             </DialogContent>

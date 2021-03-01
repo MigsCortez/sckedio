@@ -43,6 +43,7 @@ const Login = (props) => {
                     auth.login(()=>{
                         props.setLoggedIn(true);
                         props.tokenTimeKeeper(secondsToExpire);
+                        props.getUserInfo(jwToken);
                         history.push({
                             pathname: '/',
                             // state: {
