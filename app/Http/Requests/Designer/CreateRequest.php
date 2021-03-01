@@ -34,9 +34,10 @@ class CreateRequest extends FormRequest
             'description' => 'required|string',
             'category' => 'required|numeric',
             'design_cost' => 'required|numeric',
-            'idea_type' => 'required|string',
+            'idea_type' => 'required|numeric',
             'public_files.*' => 'file|image|mimes:docx,pdf,jpeg,jpg,png,gif|max:204800',
             'private_files.*' => 'file|image|mimes:docx,pdf,jpeg,jpg,png,gif|max:204800',
         ];
     }
 }
+

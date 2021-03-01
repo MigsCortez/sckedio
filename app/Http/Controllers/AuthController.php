@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers;
 
-// temporary
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Route;
-// END
 use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Services\UserAuthentication\UserAuthenticationService;
 use App\Http\Requests\UserRequest\SignUpRequest;
 use App\Http\Requests\UserRequest\LogInRequest;
-
 
 class AuthController extends Controller
 {

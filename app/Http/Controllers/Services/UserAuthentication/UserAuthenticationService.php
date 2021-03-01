@@ -38,6 +38,8 @@ class UserAuthenticationService
 
         $user_information->user()->associate($user);
         $user_information->save();
+        
+        $user->assignRole('buyer');
 
         return response()->json([
             'message' => 'Successfully created user!'
