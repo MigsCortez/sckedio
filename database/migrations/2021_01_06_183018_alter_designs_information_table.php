@@ -16,9 +16,9 @@ class AlterDesignsInformationTable extends Migration
         Schema::table('designs_information', function (Blueprint $table) {
             $table->dropColumn(['type', 'public_file', 'private_file', 'stock_type']);
             $table->foreignId('stock_type_id')->before('created_at');
-            $table->foreign('stock_type_id')->references('id')->on('stock_types')->onDelete('cascade');
+            $table->foreign('stock_type_id')->references('id')->on('stock_types');
             $table->foreignId('idea_type_id')->before('created_at');
-            $table->foreign('idea_type_id')->references('id')->on('idea_types')->onDelete('cascade');
+            $table->foreign('idea_type_id')->references('id')->on('idea_types');
         });
     }
 
