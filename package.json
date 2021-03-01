@@ -29,6 +29,7 @@
         "@material-ui/icons": "^4.11.2",
         "@material-ui/lab": "^4.0.0-alpha.57",
         "jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
         "react-router-dom": "^5.2.0"
     },
     "name": "sckedio",
@@ -38,3 +39,10 @@
     "node": "12.19.0"
   }
 }
+=======
+        "material-ui-dropzone": "^3.5.0",
+        "react-router-dom": "^5.2.0",
+        "react-visibility-sensor": "^5.1.1"
+    }
+}
+>>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1

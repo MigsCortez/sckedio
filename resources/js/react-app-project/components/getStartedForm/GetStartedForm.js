@@ -14,6 +14,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -38,25 +39,43 @@ function getSteps() {
     return ['Describe', 'Share', 'Cost'];
 }
 
-function getStepContent(step) {
+function getStepContent(step, props) {
+    const {
+        ideaName,
+        setIdeaName,
+        description,
+        setDescription,
+        productCategory,
+        setProductCategory,
+        totalCost,
+        setTotalCost,
+        stockType,
+        setStockType,
+        ideaType,
+        setIdeaType,
+        publicFiles,
+        setPublicFiles,
+        privateFiles,
+        setPrivateFiles
+    } = props;
 
-    const [categoryValue, setCategory] = React.useState('fashion');
+    // const [categoryValue, setCategory] = React.useState('clothing-accessories');
 
-    const handleCategoryChange = (event) => {
-        setCategory(event.target.value);
-    };
+    // const handleCategoryChange = (event) => {
+    //     setCategory(event.target.value);
+    // };
 
-    const [includedValue, setIncluded] = React.useState('idea');
+    // const [includedValue, setIncluded] = React.useState('idea');
 
-    const handleIncludedChange = (event) => {
-        setIncluded(event.target.value);
-    };
+    // const handleIncludedChange = (event) => {
+    //     setIncluded(event.target.value);
+    // };
 
-    const [ideaLimitValue, setIdeaLimit] = React.useState('unlimited');
+    // const [ideaLimitValue, setIdeaLimit] = React.useState('unlimited');
 
-    const handleIdeaLimitChange = (event) => {
-        setIdeaLimit(event.target.value);
-    };
+    // const handleIdeaLimitChange = (event) => {
+    //     setIdeaLimit(event.target.value);
+    // };
 
     switch (step) {
 
@@ -71,8 +90,10 @@ function getStepContent(step) {
                                     required
                                     id="form-idea-name"
                                     label="Name of Idea"
-                                    defaultValue=""
+                                    helperText="ex.: Electric Tricycle"
                                     variant="outlined"
+                                    value={ideaName}
+                                    onChange={event => setIdeaName(event.target.value)}
                                 />
                             </div>
                             <div>
@@ -81,19 +102,31 @@ function getStepContent(step) {
                                     label="Describe what the finished product is/does"
                                     multiline
                                     rows={4}
-                                    defaultValue=""
+                                    helperText="ex.: This is a fast-charging electric tricycle available in custom skins. It can reach speeds of 30 mph and run continuously for 4 hours on a single charge..."
                                     variant="outlined"
+                                    value={description}
+                                    onChange={event => setDescription(event.target.value)}
                                 />
                             </div>
                             <div>
-                                <FormControl component="fieldset">
+                                <FormControl component="fieldset" >
                                     <FormLabel component="legend">Category</FormLabel>
-                                    <RadioGroup aria-label="category" name="category1" value={categoryValue} onChange={handleCategoryChange}>
-                                        <FormControlLabel value="fashion" control={<Radio />} label="Fashion" />
-                                        <FormControlLabel value="art" control={<Radio />} label="Art" />
-                                        <FormControlLabel value="technology" control={<Radio />} label="Technology" />
-                                        <FormControlLabel value="toy" control={<Radio />} label="Toy" />
-                                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                    <RadioGroup 
+                                    aria-label="category" 
+                                    name="category1" 
+                                    value={productCategory} 
+                                    onChange={event => setProductCategory(event.target.value)}
+                                    >
+                                        <FormControlLabel value="1" control={<Radio />} label="Clothing/Accessories" />
+                                        {/* <FormControlLabel value="Fashion" control={<Radio />} label="Fashion" /> */}
+                                        <FormControlLabel value="2" control={<Radio />} label="Toys/Games" />
+                                        <FormControlLabel value="3" control={<Radio />} label="Technology" />
+                                        <FormControlLabel value="4" control={<Radio />} label="Transport" />
+                                        <FormControlLabel value="5" control={<Radio />} label="Furniture/Interior Design" />
+                                        <FormControlLabel value="6" control={<Radio />} label="Art" />
+                                        <FormControlLabel value="7" control={<Radio />} label="Home Goods" />
+                                        <FormControlLabel value="8" control={<Radio />} label="Everyday Use" />
+                                        <FormControlLabel value="9" control={<Radio />} label="Other" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>
@@ -111,12 +144,17 @@ function getStepContent(step) {
                             <div>
                                 <FormControl component="fieldset">
                                     <FormLabel component="legend">What is included in your upload?</FormLabel>
-                                    <RadioGroup aria-label="included" name="included1" value={includedValue} onChange={handleIncludedChange}>
-                                        <FormControlLabel value="idea" control={<Radio />} label="Just an idea" />
-                                        <FormControlLabel value="sketches" control={<Radio />} label="A few sketches" />
-                                        <FormControlLabel value="drawings" control={<Radio />} label="Some detailed drawings" />
-                                        <FormControlLabel value="design" control={<Radio />} label="Factory-ready design" />
-                                        <FormControlLabel value="make" control={<Radio />} label="I'll make my idea myself" />
+                                    <RadioGroup 
+                                        aria-label="included" 
+                                        name="included1" 
+                                        value={ideaType} 
+                                        onChange={event => setIdeaType(event.target.value)}
+                                    >
+                                        <FormControlLabel value="1" control={<Radio />} label="Just an idea" />
+                                        <FormControlLabel value="2" control={<Radio />} label="A few sketches" />
+                                        <FormControlLabel value="3" control={<Radio />} label="Some detailed drawings" />
+                                        <FormControlLabel value="4" control={<Radio />} label="Factory-ready design" />
+                                        <FormControlLabel value="5" control={<Radio />} label="I'll make my idea myself" />
                                     </RadioGroup>
                                 </FormControl>
                             </div>
@@ -125,14 +163,22 @@ function getStepContent(step) {
                                 <Box display='flex'>
                                     <Box border={1}>
                                         <Box>
-                                            <Typography variant='h7' border={5}>Upload any publicly available files</Typography>
+                                            <Typography border={5}>Upload any publicly available files</Typography>
                                         </Box>
-                                        <Box>
-                                            <Typography variant='h7' border={5}>(File upload not yet implemented)</Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant='h7' border={5}>Add any images, sketches, or files to give people an idea of what your product is and to get them excited!</Typography>
-                                        </Box>
+                                        {/* <input 
+                                            type='file'
+                                            id='public-files'
+                                            name='public-files'
+                                            onChange={event=> {
+                                                setPublicFiles(event.target.files);
+                                            }}
+                                        /> */}
+
+                                        <DropzoneArea
+                                            // dropzoneText={'Upload any publicly available files'}
+                                            // onChange={(files) => console.log('Files:', files)}
+                                            onChange={files => setPublicFiles(files)}
+                                        />
                                     </Box>
                                 </Box>
                             </div>
@@ -141,14 +187,13 @@ function getStepContent(step) {
                                 <Box display='flex'>
                                     <Box border={1}>
                                         <Box>
-                                            <Typography variant='h7' border={5}>Upload any private files</Typography>
+                                            <Typography border={5}>Upload any private files</Typography>
                                         </Box>
-                                        <Box>
-                                            <Typography variant='h7' border={5}>(File upload not yet implemented)</Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant='h7' border={5}>(Here's where you upload anything that people need to pay to see, whether it's more detailed sketches or a blueprint. Don't worry if you don't have anything to upload here.)</Typography>
-                                        </Box>
+                                        <DropzoneArea
+                                            // dropzoneText={'Upload any private files'}
+                                            // onChange={(files) => console.log('Files:', files)}
+                                            onChange={files => setPrivateFiles(files)}
+                                        />
                                     </Box>
                                 </Box>
                             </div>
@@ -158,21 +203,24 @@ function getStepContent(step) {
                 </div>
             )
 
-        case 2:{/*Idea cost step */}
-        return (
-            <div>
-                <Grid container>
-                    <form className={useStyles.root} noValidate autoComplete="off">
-                        <div>
-                            <TextField
-                                required
-                                id="form-idea-cost"
-                                label="How much does your idea cost?"
-                                defaultValue=""
-                                variant="outlined"
-                            />
-                        </div>
-                        <div>
+        case 2: {/*Idea cost step */ }
+            return (
+                <div>
+                    <Grid container>
+                        <form className={useStyles.root} noValidate autoComplete="off">
+                            <div>
+                                <TextField
+                                    required
+                                    id="form-idea-cost"
+                                    label="How much does your idea cost?"
+                                    helperText="ex.: $50,000"
+                                    variant="outlined"
+                                    type="number"
+                                    value={totalCost}
+                                    onChange={event => setTotalCost(event.target.value)}
+                                />
+                            </div>
+                            {/* <div>
                             <FormControl component="fieldset">
                                 <FormLabel component="legend">How many times can your idea be bought?</FormLabel>
                                 <RadioGroup aria-label="idea-limit" name="idea-limit1" value={ideaLimitValue} onChange={handleIdeaLimitChange}>
@@ -180,17 +228,18 @@ function getStepContent(step) {
                                     <FormControlLabel value="limited" control={<Radio />} label="A limited number" />
                                 </RadioGroup>
                             </FormControl>
-                        </div>
-                    </form>
-                </Grid>
-            </div>
-        )
+                        </div> */}
+                        </form>
+                    </Grid>
+                </div>
+            )
         default:
             return 'Unknown step';
     }
 }
 
 const GetStartedForm = (props) => {
+    const { handleSubmit } = props;
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
@@ -205,10 +254,15 @@ const GetStartedForm = (props) => {
     };
 
     const handleNext = () => {
+        console.log('active step: ' + activeStep);
         let newSkipped = skipped;
         if (isStepSkipped(activeStep)) {
             newSkipped = new Set(newSkipped.values());
             newSkipped.delete(activeStep);
+        }
+
+        if (activeStep===steps.length-1) {
+            handleSubmit();
         }
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -262,18 +316,20 @@ const GetStartedForm = (props) => {
                     <div>
                         <Typography className={classes.instructions}>
                             All steps completed - you&apos;re finished
-            </Typography>
+                        </Typography>
                         <Button onClick={handleReset} className={classes.button}>
                             Reset
-            </Button>
+                        </Button>
                     </div>
                 ) : (
                         <div>
-                            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                            {/* <Typography className={classes.instructions}> */}
+                            {getStepContent(activeStep, props)}
+                            {/* </Typography> */}
                             <div>
                                 <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                     Back
-              </Button>
+                                </Button>
                                 {isStepOptional(activeStep) && (
                                     <Button
                                         variant="contained"
@@ -282,7 +338,7 @@ const GetStartedForm = (props) => {
                                         className={classes.button}
                                     >
                                         Skip
-                </Button>
+                                    </Button>
                                 )}
 
                                 <Button

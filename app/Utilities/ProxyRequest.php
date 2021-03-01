@@ -8,7 +8,8 @@ use Laravel\Passport\RefreshTokenRepository;
 
 class ProxyRequest 
 {
-    public function grantPasswordToken(string $username, string $password) {
+    public function grantPasswordToken(string $username, string $password) 
+    {
         // Parameters needed for Password Grant
         
         $params = [
@@ -20,7 +21,8 @@ class ProxyRequest
         return $this->makePostRequest($params);
     }
 
-    public function revokeTokens(string $accessTokenId) {
+    public function revokeTokens(string $accessTokenId) 
+    {
         $tokenRepository = app(TokenRepository::class);
         $refreshTokenRepository = app(RefreshTokenRepository::class);
         
@@ -32,12 +34,14 @@ class ProxyRequest
         ]);
     }
 
-    public function refreshAccessToken() {
+    public function refreshAccessToken() 
+    {
         // Conditions refresh_token if it is available, missing, and/or expired.
 
         $refreshToken = request()->cookie('refresh_token');
         
-        if(!$refreshToken) {
+        if(!$refreshToken) 
+        {
             cookie()->queue(cookie()->forget('refresh_token'));
             abort_unless($refreshToken, 403, 'Please log in.');
         }
@@ -50,7 +54,8 @@ class ProxyRequest
         return $this->makePostRequest($params);
     }
 
-    protected function makePostRequest(array $params) {
+    protected function makePostRequest(array $params) 
+    {
     // Initial values to return for Passport routes  especially the client's id and secret.
 
         $params = array_merge($params, [
@@ -59,13 +64,24 @@ class ProxyRequest
             'scopes' => '*',
         ]);
 
-        $proxy = Http::asForm()->post('https://sckedio-passport.herokuapp.com/oauth/token', $params);
+        // $proxy = Http::asForm()->post('127.0.0.1:8000/oauth/token', $params);
+
+        $tokenRequest = Request::create(
+            env('APP_URL').'/oauth/token',
+            'POST',
+            $params
+        );
+        $proxy = app()->handle($tokenRequest);
+
+        $proxy = json_decode($proxy->getContent(), true);
+
         $this->setHttpOnlyCookie($proxy['refresh_token']);
         
         return $proxy;
     }
 
-    protected function setHttpOnlyCookie(string $refreshToken) {
+    protected function setHttpOnlyCookie(string $refreshToken) 
+    {
         // Refresh Token is use as httponly cookie.
 
         cookie()->queue(

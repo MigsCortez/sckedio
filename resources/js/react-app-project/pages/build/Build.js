@@ -6,7 +6,7 @@ import { BuildPage } from '../../data/PageData';
 const Build = (props) => {
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} />
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
             <PageLayout pageData={BuildPage} />
         </div>
     );

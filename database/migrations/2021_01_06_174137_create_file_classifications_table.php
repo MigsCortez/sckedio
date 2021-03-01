@@ -15,7 +15,10 @@ class CreateFileClassificationsTable extends Migration
     {
         Schema::create('file_classifications', function (Blueprint $table) {
             $table->id();
-            $table->string('classification');
+            $table->foreignId('design_id');
+            $table->foreign('design_id')->references('id')->on('designs');
+            $table->boolean('is_private');
+            $table->string('file_route');
             $table->timestamps();
         });
     }

@@ -1,5 +1,13 @@
 import React from 'react';
+import { createMuiTheme, makeStyles, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let theme = createMuiTheme();
+theme = responsiveFontSizes(theme);
+
+ReactDOM.render(
+    <ThemeProvider theme={theme}>
+        <App />
+    </ThemeProvider>
+    , document.getElementById('root'));

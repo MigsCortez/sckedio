@@ -62,17 +62,19 @@ const Profile = (props) => {
     });
 
     useEffect(() => {
-        console.log('profile reload');
-        // const jwToken = localStorage.getItem('token');
-        const jwToken = auth.getToken();
-        getUserInfo(jwToken);
-    }, []);
-
-    const getUserInfo = (newToken) => {
-        const authAxios = axios.create({
-            headers: {
-                Authorization: `Bearer ${newToken}`
-            }
+        setNewUserInfo({
+            ...newUserInfo,
+            newUsername: userInfo.username,
+            newEmail: userInfo.email,
+            newFirstName: userInfo.firstName,
+            newLastName: userInfo.lastName,
+            newStreet: userInfo.street,
+            newCity: userInfo.city,
+            newState: userInfo.state,
+            newPostalCode: userInfo.postalCode,
+            newCountry: userInfo.country,
+            newDesigner: userInfo.roles.includes('designer'),
+            newManufacturer: userInfo.roles.includes('manufacturer')
         });
         authAxios.get('/api/auth/user')
             .then(res => {
@@ -105,7 +107,7 @@ const Profile = (props) => {
             .catch(err => {
                 console.log(err);
             });
-    };
+    });
 
     const handleUpdateUserSubmit = () => {
         console.log('submit');
@@ -118,7 +120,9 @@ const Profile = (props) => {
             postal_code: newUserInfo.newPostalCode,
             country: newUserInfo.newCountry,
             username: newUserInfo.newUsername,
-            email: newUserInfo.newEmail
+            email: newUserInfo.newEmail,
+            designer: newUserInfo.newDesigner,
+            manufacturer: newUserInfo.newManufacturer
 
         };
 
@@ -194,7 +198,7 @@ const Profile = (props) => {
 
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} />
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
             <Container >
                 <Box my={3}>
                     <Typography variant='h2'>Profile</Typography>

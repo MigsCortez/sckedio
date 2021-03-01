@@ -46,8 +46,10 @@ const App = () => {
     useEffect(() => {
         console.log('app load');
 
-        runRefresh(()=>{
-            setLoading(false);
+        runRefresh(() => {
+            // setLoading(false);
+            const jwToken = auth.getToken();
+            getUserInfo(jwToken);
         });
 
         // // Get JWT from localStorage (if it exists)
@@ -80,12 +82,56 @@ const App = () => {
         //             setLoggedIn(true);
         //         });
         //     }
-        // } 
+        // }
         // setLoading(false);
     }, []);
 
+    const getUserInfo = (newToken) => {
+        const authAxios = axios.create({
+            headers: {
+                Authorization: `Bearer ${newToken}`
+            }
+        });
+        authAxios.get('/api/auth/user')
+            .then(res => {
+                console.log(res);
+                setUserInfo({
+                    ...userInfo,
+                    username: res.data[0].username,
+                    email: res.data[0].email,
+                    firstName: res.data[1].first_name,
+                    lastName: res.data[1].last_name,
+                    street: res.data[1].street,
+                    city: res.data[1].city,
+                    state: res.data[1].state,
+                    postalCode: res.data[1].postal_code,
+                    country: res.data[1].country,
+                    roles: res.data[2]
+                });
+                // setNewUserInfo({
+                //     ...newUserInfo,
+                //     newUsername: res.data[0].username,
+                //     newEmail: res.data[0].email,
+                //     newFirstName: res.data[1].first_name,
+                //     newLastName: res.data[1].last_name,
+                //     newStreet: res.data[1].street,
+                //     newCity: res.data[1].city,
+                //     newState: res.data[1].state,
+                //     newPostalCode: res.data[1].postal_code,
+                //     newCountry: res.data[1].country
+                // });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .then(()=>{
+                setLoading(false);
+            });
+    };
+
     const runRefresh = (callback) => {
         console.log('refresh');
+
         axios.get('/api/auth/refresh')
             .then(res => {
                 console.log(res);
@@ -169,13 +215,13 @@ const App = () => {
                 <CssBaseline />
                 <Router>
                     <Switch>
-                        <Route exact path='/' component={() => <Home loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <Route exact path='/sell' component={() => <Sell loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} />} />
-                        <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} />} />
+                        <Route exact path='/' component={() => <Home loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <Route exact path='/sell' component={() => <Sell loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
+                        <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} userInfo={userInfo} getUserInfo={getUserInfo} roles={userInfo.roles}/>} />
                         <Route exact path='/create-account' component={CreateAccount} />
                         <Route exact path='/login' component={() => <Login setLoggedIn={setLoggedIn} tokenTimeKeeper={tokenTimeKeeper} />} />
                         <Route exact path='/forgot-password' component={PasswordForgotRequest} />
@@ -184,7 +230,7 @@ const App = () => {
                             <PasswordReset />
                         </Route>
                         <Route path='/product/:id'>
-                            <Product loggedIn={loggedIn} handleLogout={handleLogout} />
+                            <Product loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />
                         </Route>
 
                         <Route exact path='/register' component={Register} />

@@ -24,21 +24,19 @@ class AuthController extends Controller
         $this->userAuth = $userAuthentication;
     }
 
-     public function signup(SignUpRequest $request) 
-     {
-        $status = $this->userAuth->handleSignUp($request);
-        return $status;
-     }
+    public function signup(SignUpRequest $request) 
+    {
+    $status = $this->userAuth->handleSignUp($request);
+    return $status;
+    }
 
+    public function login(LogInRequest $request) 
+    {
+    $status = $this->userAuth->handleLogIn($request);
+    return $status;
+    }
 
-     /**
-      * Login user and create token
-      * @param [string] email
-      * @param [string] password
-      * @return [string] token_type
-      * @return [string] expires_at
-      */
-
+<<<<<<< HEAD
       public function login(LogInRequest $request) 
       {
         // $status = $this->userAuth->handleLogIn($request);
@@ -89,10 +87,18 @@ class AuthController extends Controller
         *
         * @return [json] user object 
         */
+=======
+    public function logout(Request $request) 
+    {
+        $tokenId = $request->user()->token()->id;
+        $status = $this->userAuth->handleLogOut($tokenId);
+        return $status;
+    }
+>>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1
 
-        public function user(Request $request) 
-        {
-            $status = $this->userAuth->findCurrentUser();
-            return $status;
-        }
+    public function user(Request $request) 
+    {
+        $status = $this->userAuth->findCurrentUser();
+        return $status;
+    }
 }

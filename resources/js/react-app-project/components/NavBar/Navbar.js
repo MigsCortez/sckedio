@@ -26,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (props) => {
     const classes = useStyles();
-    const { history, location, handleLogout, loggedIn } = props;
+    const { history, location, handleLogout, loggedIn, roles } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'), {noSsr:true});
     const [currentLocationURL, setCurrentLocationURL] = React.useState(location.pathname);
+    const [currentAccountType, setCurrentAccountType] = React.useState('Buyer');
+    // const roles = ['Buyer', 'Designer', 'Manufacturer'];
     // const loggedIn = props.loggedIn;
 
     const navItems = [
@@ -85,6 +87,56 @@ const NavBar = (props) => {
                     <div>
                         {isMobile ? (
                             <div>
+                                {loggedIn &&
+                                    (<>
+                                        <Button
+                                            onClick={handleAccountType}
+                                            className={classes.mobileRoleButton}
+                                        >
+                                            <Box
+                                                width={130}
+                                                display='flex'
+                                                border={1}
+                                                justifyContent='flex-end'
+                                            >
+                                                <Typography>{currentAccountType}</Typography>
+                                                <ArrowDropDownIcon />
+                                            </Box>
+                                        </Button>
+                                        <Menu
+                                            id="account-dropdown"
+                                            anchorEl={anchorElAccount}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            open={openAccount}
+                                            onClose={() => setAnchorElAccount(null)}
+                                        >
+                                            {roles.map((item, i) => (
+                                                <MenuItem key={i} onClick={() => handleAccountClick(item)}>
+                                                    <Typography>
+                                                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                                                    </Typography>
+                                                </MenuItem>
+                                            ))}
+                                            <MenuItem
+                                                onClick={() => handleLogout()}
+                                            >
+                                                <Typography
+                                                    color='error'
+                                                >
+                                                    Log Out
+                                                    </Typography>
+                                            </MenuItem>
+                                        </Menu>
+                                    </>)
+                                }
                                 <IconButton
                                     edge="start"
                                     className={classes.menuButton}
@@ -179,9 +231,29 @@ const NavBar = (props) => {
                                             <Typography
                                                 color='error'
                                             >
+<<<<<<< HEAD
                                                 Log Out
                                             </Typography>
                                         </Button>
+=======
+                                                {roles.map((item, i) => (
+                                                    <MenuItem key={i} onClick={() => handleAccountClick(item)}>
+                                                        <Typography>
+                                                            {item.charAt(0).toUpperCase() + item.slice(1)}
+                                                        </Typography>
+                                                    </MenuItem>
+                                                ))}
+                                                <MenuItem
+                                                    onClick={() => handleLogout()}
+                                                >
+                                                    <Typography
+                                                        color='error'
+                                                    >
+                                                        Log Out
+                                                    </Typography>
+                                                </MenuItem>
+                                            </Menu>
+>>>>>>> a2d8a44789525341a6dc6ff52def7723a2fd79a1
                                         </>
                                     ) :
                                         (

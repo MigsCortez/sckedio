@@ -58,7 +58,7 @@ class UserAuthenticationService
         {
             $response = $this->proxy->grantPasswordToken($user_credentials['username'], $user_credentials['password']);
         }
-
+        
         return response()->json([
             'access_token' => $response['access_token'],
             'expires_in' => $response['expires_in'],
@@ -79,9 +79,11 @@ class UserAuthenticationService
     {
         $user = Auth::user();
         $user_information = User::find($user->id)->user_information;
-
+        $role = $user->roles->pluck('name');
         return response()->json([
-            $user, $user_information
-        ]);
+            $user, 
+            $user_information,
+            $role,
+        ], 200);
     }
 }
