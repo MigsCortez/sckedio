@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\IdeaType;
-use App\Models\FileClassification;
 use App\Models\Category;
 
 class LookUpSeeder extends Seeder
@@ -24,8 +23,6 @@ class LookUpSeeder extends Seeder
         IdeaType::create(['idea_type' => 'I\'ll make my idea myself!']);
 
         // File classification values
-        FileClassification::create(['classification' => 'public']);
-        FileClassification::create(['classification' => 'private']);
 
         // Category values
         Category::create(['category' => 'Clothing/Accessories']);
