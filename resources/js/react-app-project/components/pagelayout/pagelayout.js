@@ -92,7 +92,7 @@ const PageLayout = ({ pageData }) => {
                 </Grid>
             </Grid>
             {/*Middle section*/}
-            <Grid container justify='center' className={classes.middleSection}>
+            <Grid container item justify='center' className={classes.middleSection}>
                 {pageData.main.map((section, i) => (
                     <Grid item key={i} xs={12} md={6}>
                         { section.image ?
@@ -112,7 +112,7 @@ const PageLayout = ({ pageData }) => {
                             </Grid>
                         }
                     </Grid>
-                ))}
+                ))} 
             </Grid>
             <FeedbackForm mt={20}/>
         </Grid>

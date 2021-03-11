@@ -120,7 +120,7 @@ const AboutPage = {
             position: 'right'
         },
         {
-            image: '../images/pexels-andrea-piacquadio-3771055.jpg',
+            image: '../images/design.jpeg',
             position: 'left'
         },
         {
