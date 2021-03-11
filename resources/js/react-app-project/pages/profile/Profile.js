@@ -218,7 +218,7 @@ const Profile = (props) => {
 
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
             <Container >
                 <Box my={3}>
                     <Typography variant='h2'>Profile</Typography>

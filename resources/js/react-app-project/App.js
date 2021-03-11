@@ -17,11 +17,7 @@ import ProtectedRoute from './components/protectedRoute/ProtectedRoute';
 import Sell from './pages/sell/Sell';
 import GetStarted from './pages/getStarted/GetStarted';
 import auth from './auth';
-import jwt from 'jsonwebtoken';
 import axios from 'axios';
-
-/* Anything that has register is temporary */
-import Register from './pages/register/Register';
 
 const useStyles = makeStyles((theme) => ({
     center: {
@@ -36,8 +32,8 @@ const App = () => {
     const classes = useStyles();
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    const [tokenExpired, setTokenExpired] = React.useState(false);
-    // const [timeoutVar, setTimeoutVar] = React.useState();
+    // const [tokenExpired, setTokenExpired] = React.useState(false);
+    const [currentRoleType, setCurrentRoleType] = React.useState('buyer');
     const [userInfo, setUserInfo] = React.useState({
         username: null,
         firstName: null,
@@ -64,39 +60,6 @@ const App = () => {
             const jwToken = auth.getToken();
             getUserInfo(jwToken);
         });
-
-        // // Get JWT from localStorage (if it exists)
-        // const jwToken = localStorage.getItem('token');
-
-        // // for deployment JWT logic
-        // // const jwToken = auth.getToken();
-
-        // // If JWT exists in localStorage
-        // if (jwToken) {
-
-        //     // Decode JWT (to get expire time)
-        //     const decodedToken = jwt.decode(jwToken);
-        //     console.log('token expire: ' + decodedToken.exp);
-
-        //     // Get current time to compare
-        //     const dateNow = new Date();
-        //     console.log('current time: ' + (dateNow.getTime() / 1000));
-
-        //     // Check if JWT expire time is less than current time (/1000 to convert)
-        //     if (decodedToken.exp < (dateNow.getTime() / 1000)) {
-        //         // not currently using this, might need in future
-        //         setTokenExpired(true);
-
-        //         handleLogout();
-        //         // If JWT is NOT expired
-        //     } else {
-        //         // Log in via auth, flip logged in state
-        //         auth.login(() => {
-        //             setLoggedIn(true);
-        //         });
-        //     }
-        // }
-        // setLoading(false);
     }, []);
 
     const getUserInfo = (newToken) => {
@@ -121,18 +84,6 @@ const App = () => {
                     country: res.data[1].country,
                     roles: res.data[2]
                 });
-                // setNewUserInfo({
-                //     ...newUserInfo,
-                //     newUsername: res.data[0].username,
-                //     newEmail: res.data[0].email,
-                //     newFirstName: res.data[1].first_name,
-                //     newLastName: res.data[1].last_name,
-                //     newStreet: res.data[1].street,
-                //     newCity: res.data[1].city,
-                //     newState: res.data[1].state,
-                //     newPostalCode: res.data[1].postal_code,
-                //     newCountry: res.data[1].country
-                // });
             })
             .catch(err => {
                 console.log(err);
@@ -160,9 +111,6 @@ const App = () => {
                 auth.login(() => {
                     setLoggedIn(true);
                     tokenTimeKeeper(secondsToExpire);
-                    // history.push({
-                    //     pathname: '/'
-                    // });
                 });
             })
             .catch(err => {
@@ -170,7 +118,6 @@ const App = () => {
                 clearTimeout(timeFunc);
                 // Log out via auth, flip logged in state, remove token from storage
                 auth.logout(() => {
-                    // localStorage.removeItem('token');
                     setLoggedIn(false);
                 });
             })
@@ -182,7 +129,7 @@ const App = () => {
     // let timeoutVar;
     const handleLogout = () => {
         console.log('logged out');
-        // clearTimeout(timeoutVar);
+
         clearTimeout(timeFunc);
 
         const jwToken = auth.getToken();
@@ -198,7 +145,7 @@ const App = () => {
                 console.log(res);
                 // Log out via auth, flip logged in state, remove token from storage
                 auth.logout(() => {
-                    // localStorage.removeItem('token');
+                    
                     setLoggedIn(false);
                 });
 
@@ -213,10 +160,13 @@ const App = () => {
 
 
     const tokenTimeKeeper = (numOfSeconds) => {
-        // numOfSeconds = 30;
         console.log('timer started');
-        // setTimeoutVar(setTimeout(runRefresh, numOfSeconds * 1000));
+        
         timeFunc = setTimeout(runRefresh, (numOfSeconds - 10) * 1000);
+    };
+
+    const handleRoleType = (type) => {
+        setCurrentRoleType(type);
     };
 
     return (
@@ -228,25 +178,22 @@ const App = () => {
                 <CssBaseline />
                 <Router>
                     <Switch>
-                        <Route exact path='/' component={() => <Home loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <Route exact path='/sell' component={() => <Sell loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />} />
-                        <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} userInfo={userInfo} getUserInfo={getUserInfo} roles={userInfo.roles}/>} />
+                        <Route exact path='/' component={() => <Home loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <Route exact path='/sell' component={() => <Sell loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} userInfo={userInfo} getUserInfo={getUserInfo} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
                         <Route exact path='/create-account' component={CreateAccount} />
                         <Route exact path='/login' component={() => <Login setLoggedIn={setLoggedIn} tokenTimeKeeper={tokenTimeKeeper} getUserInfo={getUserInfo} />} />
                         <Route exact path='/forgot-password' component={PasswordForgotRequest} />
-                        {/* <Route exact path='/password-reset' component={PasswordReset} /> */}
                         <Route path='/password-reset/:token'>
                             <PasswordReset />
                         </Route>
                         <Route path='/product/:id'>
-                            <Product loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} />
+                            <Product loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />
                         </Route>
-
-                        <Route exact path='/register' component={Register} />
 
                         <Route path='*' component={() => '404 NOT FOUND'} />
                     </Switch>

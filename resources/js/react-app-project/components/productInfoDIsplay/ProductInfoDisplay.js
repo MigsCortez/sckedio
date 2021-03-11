@@ -73,7 +73,8 @@ const ProductInfoDisplay = (props) => {
         currentImage,
         setCurrentImage,
         imageArr,
-        handleImageClick
+        handleImageClick,
+        loggedIn
     } = props;
     // const {
     //     designer,
@@ -96,6 +97,28 @@ const ProductInfoDisplay = (props) => {
     } = props;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
+    const displayInterestButton = () => {
+        if (loggedIn) {
+            if (interestBool) {
+                return (
+                    <Typography variant='body1' gutterBottom>
+                        You are interested in this product!
+                    </Typography>
+                );
+            } else {
+                return (
+                    <Button variant='contained' color='primary' onClick={() => handleInterest(itemNum)}>Interested</Button>
+                );
+            }
+        } else {
+            return (
+                <Typography variant='body1' gutterBottom>
+                    Log in to show interest
+                </Typography>
+            );
+        }
+    };
 
     return (
         <div className={classes.root}>
@@ -147,13 +170,7 @@ const ProductInfoDisplay = (props) => {
                                         </Typography>
                                 </Grid>
                                 <Grid item container xs={12} justify='center'>
-                                    {interestBool ?
-                                        <Typography variant='body1' gutterBottom>
-                                            You are interested in this product!
-                                        </Typography>
-                                        :
-                                        <Button variant='contained' color='primary' onClick={() => handleInterest(itemNum)}>Interested</Button>
-                                    }
+                                    {displayInterestButton()}
                                 </Grid>
                             </Grid>
                         </Box>

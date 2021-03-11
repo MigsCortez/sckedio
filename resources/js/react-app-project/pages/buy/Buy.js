@@ -21,19 +21,23 @@ const Buy = (props) => {
             }
         });
 
-        authAxios.get('/api/designer/auth/list')
-            .then(res => {
+        if (props.loggedIn) {
+
+            authAxios.get('/api/designer/auth/list')
+                .then(res => {
+                    console.log(res);
+                    setProductArray(res.data.designs);
+                })
+                .catch(err => console.log(err));
+        } else {
+            axios.get('/api/designer/list')
+            .then(res=>{
                 console.log(res);
                 setProductArray(res.data.designs);
             })
-            .catch(err => console.log(err));
+            .catch(err=>console.log(err));
+        }
 
-        // axios.get('/api/designer/list')
-        // .then(res=>{
-        //     console.log(res);
-        //     setProductArray(res.data.designs);
-        // })
-        // .catch(err=>console.log(err));
     }, []);
 
     const getDesigns = () => {
@@ -45,12 +49,22 @@ const Buy = (props) => {
             }
         });
 
-        authAxios.get('/api/designer/auth/list')
-            .then(res => {
+        if (props.loggedIn) {
+
+            authAxios.get('/api/designer/auth/list')
+                .then(res => {
+                    console.log(res);
+                    setProductArray(res.data.designs);
+                })
+                .catch(err => console.log(err));
+        } else {
+            axios.get('/api/designer/list')
+            .then(res=>{
                 console.log(res);
                 setProductArray(res.data.designs);
             })
-            .catch(err => console.log(err));
+            .catch(err=>console.log(err));
+        }
     };
 
     const handleInterest = (designId) => {
@@ -64,7 +78,7 @@ const Buy = (props) => {
         });
 
         authAxios.post('/api/buyer/create/' + designId)
-            .then (res => {
+            .then(res => {
                 console.log(res);
                 getDesigns();
             })
@@ -75,7 +89,7 @@ const Buy = (props) => {
 
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
             <Container>
                 <Box my={3}>
                     <Typography variant='h2'>Shop</Typography>
@@ -91,8 +105,9 @@ const Buy = (props) => {
                     {productArray.map((product, i) => (
                         <Grid item xs={12} sm={6} md={4} lg={3} key={i} align='center'>
                             <DesignCard
-                                product={product}
                                 handleInterest={handleInterest}
+                                loggedIn={props.loggedIn}
+                                product={product}
                             />
                         </Grid>
                     ))}

@@ -64,8 +64,27 @@ const DesignCard = (props) => {
     const category = props.product.category_id;
     const interestBool = props.product.is_interested;
     const {
-        handleInterest
+        handleInterest,
+        loggedIn
     } = props;
+
+    const displayInterestButton = () => {
+        if (loggedIn) {
+            if (interestBool) {
+                return (
+                    <Typography variant='button' color='textSecondary' component='p'>
+                        Interested!
+                    </Typography>
+                );
+            } else {
+                return (
+                    <Button size='small' color='primary' onClick={() => handleInterest(itemNum)}>
+                        Interested?
+                    </Button>
+                );
+            }
+        }
+    };
 
 
     return (
@@ -92,11 +111,15 @@ const DesignCard = (props) => {
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                {!interestBool &&
+                {displayInterestButton()}
+                {/* <Typography variant='button' color='textSecondary' component='p'>
+                    Interested!
+                    </Typography>
+                {!interestBool && loggedIn &&
                     <Button size='small' color='primary' onClick={() => handleInterest(itemNum)}>
-                        Interested
+                        Interested?
                     </Button>
-                }
+                } */}
                 <Button size='small' color='primary' onClick={() => history.push(`/product/${itemNum}`)}>
                     Learn More
                 </Button>

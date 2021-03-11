@@ -18,104 +18,115 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Product = (props)=> {
+const Product = (props) => {
     const classes = useStyles();
     const { id } = useParams();
     console.log(props)
-    const [product,setProduct] = React.useState();
+    const [product, setProduct] = React.useState();
     const [loading, setLoading] = React.useState(true);
     const [currentImage, setCurrentImage] = React.useState();
     const [imageArr, setImageArr] = React.useState();
 
-    useEffect(()=>{
+    useEffect(() => {
         const jwToken = auth.getToken();
         const authAxios = axios.create({
             headers: {
                 Authorization: `Bearer ${jwToken}`,
-                'Content-Type': 'multipart/form-data' 
+                'Content-Type': 'multipart/form-data'
             }
-        }); 
+        });
 
-        authAxios.get('/api/designer/auth/show/'+id)
-        .then(res=>{
-            console.log(res);
-            setProduct(res.data.design);
-            setCurrentImage(res.data.design.images[0]);
-            const newImageArr = res.data.design.images.map((individualImage,i)=>{
-                return {
-                    src: individualImage,
-                    active: i===0
-                }
-            });
-            setImageArr(newImageArr);
-            setLoading(false);
-        })
-        .catch(err=>console.log(err));
+        if (props.loggedIn) {
 
-        // axios.get('/api/designer/show-design/'+id)
-        // .then(res=>{
-        //     console.log(res);
-        //     setProduct(res.data.design);
-        //     setCurrentImage(res.data.design.images[0]);
-        //     const newImageArr = res.data.design.images.map((individualImage,i)=>{
-        //         return {
-        //             src: individualImage,
-        //             active: i===0
-        //         }
-        //     });
-        //     setImageArr(newImageArr);
-        //     setLoading(false);
-        // })
-        // .catch(err=>console.log(err));
+            authAxios.get('/api/designer/auth/show/' + id)
+                .then(res => {
+                    console.log(res);
+                    setProduct(res.data.design);
+                    setCurrentImage(res.data.design.images[0]);
+                    const newImageArr = res.data.design.images.map((individualImage, i) => {
+                        return {
+                            src: individualImage,
+                            active: i === 0
+                        }
+                    });
+                    setImageArr(newImageArr);
+                    setLoading(false);
+                })
+                .catch(err => console.log(err));
+        } else {
 
-        // for (let i=0;i<fakeProducts.length;i++) {
-        //     if (fakeProducts[i].itemNum==id) {           
-        //         setProduct(fakeProducts[i]);
-        //         setCurrentImage(fakeProducts[i].image[0]);
-        //         const newImageArr = fakeProducts[i].image.map((individualImage,j)=>{
-        //             return {
-        //                 src: individualImage,
-        //                 active: j===0
-        //             }
-        //         });
-        //         setImageArr(newImageArr);
-        //         setLoading(false);
-        //     }
-        // }
-    },[]);
+            axios.get('/api/designer/show-design/' + id)
+                .then(res => {
+                    console.log(res);
+                    setProduct(res.data.design);
+                    setCurrentImage(res.data.design.images[0]);
+                    const newImageArr = res.data.design.images.map((individualImage, i) => {
+                        return {
+                            src: individualImage,
+                            active: i === 0
+                        }
+                    });
+                    setImageArr(newImageArr);
+                    setLoading(false);
+                })
+                .catch(err => console.log(err));
+        }
+
+
+    }, []);
 
     const getDesign = () => {
         const jwToken = auth.getToken();
         const authAxios = axios.create({
             headers: {
                 Authorization: `Bearer ${jwToken}`,
-                'Content-Type': 'multipart/form-data' 
+                'Content-Type': 'multipart/form-data'
             }
-        }); 
+        });
 
-        authAxios.get('/api/designer/auth/show/'+id)
-        .then(res=>{
-            console.log(res);
-            setProduct(res.data.design);
-            setCurrentImage(res.data.design.images[0]);
-            const newImageArr = res.data.design.images.map((individualImage,i)=>{
-                return {
-                    src: individualImage,
-                    active: i===0
-                }
-            });
-            setImageArr(newImageArr);
-            // setLoading(false);
-        })
-        .catch(err=>console.log(err));
+        if (props.loggedIn) {
+
+            authAxios.get('/api/designer/show-design/' + id)
+                .then(res => {
+                    console.log(res);
+                    setProduct(res.data.design);
+                    setCurrentImage(res.data.design.images[0]);
+                    const newImageArr = res.data.design.images.map((individualImage, i) => {
+                        return {
+                            src: individualImage,
+                            active: i === 0
+                        }
+                    });
+                    setImageArr(newImageArr);
+                    // setLoading(false);
+                })
+                .catch(err => console.log(err));
+        } else {
+            axios.get('/api/designer/auth/show/' + id)
+                .then(res => {
+                    console.log(res);
+                    setProduct(res.data.design);
+                    setCurrentImage(res.data.design.images[0]);
+                    const newImageArr = res.data.design.images.map((individualImage, i) => {
+                        return {
+                            src: individualImage,
+                            active: i === 0
+                        }
+                    });
+                    setImageArr(newImageArr);
+                    // setLoading(false);
+                })
+                .catch(err => console.log(err));
+        }
+
     };
 
-    const handleImageClick = (eventTarget)=> {
+    const handleImageClick = (eventTarget) => {
         setCurrentImage(eventTarget.src);
-        const newImageArr = product.images.map((individualImage,i)=>{
+        const newImageArr = product.images.map((individualImage, i) => {
             return {
                 src: individualImage,
-                active: i==eventTarget.dataset.key
+                active: i == eventTarget.dataset.key
             }
         });
         setImageArr(newImageArr);
@@ -132,7 +143,7 @@ const Product = (props)=> {
         });
 
         authAxios.post('/api/buyer/create/' + designId)
-            .then (res => {
+            .then(res => {
                 console.log(res);
                 getDesign();
             })
@@ -143,21 +154,22 @@ const Product = (props)=> {
 
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
-            {loading ? 
-            <div className={classes.center}>
-                <CircularProgress /> 
-            </div> :
-            <Container>
-                <ProductInfoDisplay 
-                    product={product}
-                    currentImage={currentImage}
-                    setCurrentImage={setCurrentImage}
-                    handleImageClick={handleImageClick}
-                    imageArr={imageArr}
-                    handleInterest={handleInterest}
-                />
-            </Container> }
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
+            {loading ?
+                <div className={classes.center}>
+                    <CircularProgress />
+                </div> :
+                <Container>
+                    <ProductInfoDisplay
+                        currentImage={currentImage}
+                        handleImageClick={handleImageClick}
+                        handleInterest={handleInterest}
+                        imageArr={imageArr}
+                        loggedIn={props.loggedIn}
+                        product={product}
+                        setCurrentImage={setCurrentImage}
+                    />
+                </Container>}
         </div>
     );
 };

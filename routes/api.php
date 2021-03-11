@@ -68,15 +68,20 @@ Route::group([
 ], function() {
     Route::get('list', [DesignController::class, 'listAllDesigns']);
     Route::get('show-design/{id}', [DesignController::class, 'showDesign']);
-    
+
     Route::group([
-        'middleware' => 'auth:api', 'prefix' => 'auth'
-    ], function() {
-        Route::post('create', [DesignController::class, 'create']);
-        Route::get('list', [DesignController::class, 'list']);
-        Route::get('show/{id}', [DesignController::class, 'show']);
-        Route::post('upload/file/{id}', [DesignController::class, 'uploadFiles']);
-        Route::put('update/{id}', [DesignController::class, 'update']);
+        'middleware' => ['auth:api'], 'prefix' => 'auth'
+    ], function(){
+        Route::get('list', [DesignController::class, 'list']); // Should be able to view for autheticated users.
+        Route::get('show/{id}', [DesignController::class, 'show']); // Should be able to view for autheticated users.
+        
+        Route::group([
+            'middleware' => ['role:designer']
+        ], function() {
+            Route::post('create', [DesignController::class, 'create']);
+            Route::post('upload/file/{id}', [DesignController::class, 'uploadFiles']);
+            Route::put('update/{id}', [DesignController::class, 'update']);
+        });
     });
 });
 
@@ -84,9 +89,10 @@ Route::group([
     'prefix' => 'buyer'
 ], function() {
     Route::group([
-        'middleware' => 'auth:api'
+        'middleware' => ['auth:api', 'role:buyer']
     ], function() {
         Route::post('create/{id}', [BuyerController::class, 'create']);
+        Route::delete('delete/{id}');
     });
 });
 

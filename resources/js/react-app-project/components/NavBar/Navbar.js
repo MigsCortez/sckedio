@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = (props) => {
     const classes = useStyles();
-    const { history, location, handleLogout, loggedIn, roles } = props;
+    const { history, location, handleLogout, loggedIn, roles, currentRoleType, handleRoleType } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorElAccount, setAnchorElAccount] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -91,7 +91,7 @@ const NavBar = (props) => {
     };
 
     const handleAccountClick = (type) => {
-        setCurrentAccountType(type);
+        handleRoleType(type);
         setAnchorElAccount(null);
     };
 
@@ -124,7 +124,7 @@ const NavBar = (props) => {
                                                 border={1}
                                                 justifyContent='flex-end'
                                             >
-                                                <Typography>{currentAccountType}</Typography>
+                                                <Typography>{currentRoleType}</Typography>
                                                 <ArrowDropDownIcon />
                                             </Box>
                                         </Button>
@@ -260,7 +260,7 @@ const NavBar = (props) => {
                                                     border={1}
                                                     justifyContent='flex-end'
                                                 >
-                                                    <Typography>{currentAccountType}</Typography>
+                                                    <Typography>{currentRoleType}</Typography>
                                                     <ArrowDropDownIcon />
                                                 </Box>
                                             </Button>

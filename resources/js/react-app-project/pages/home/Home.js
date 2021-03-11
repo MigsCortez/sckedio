@@ -15,6 +15,7 @@ import axios from 'axios';
 import VisibilitySensor from 'react-visibility-sensor';
 import { useHistory } from "react-router-dom";
 import artisanImage from '../../../../assets/artisan2.jpg';
+import stayTunedImage from '../../images/pexels-andrea-piacquadio-842554.jpg'
 import workImage from '../../../../assets/work.jpg';
 import whiteboard from '../../../../assets/whiteboard4.jpg'
 import lightbulbImage from '../../../../assets/lightbulb2.jpg'
@@ -48,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundSize: 'cover',
         backgroundPosition: 'top-center',
         backgroundRepeat: 'no-repeat',
+        width: `calc(100vw + 40px)`,
         padding: 0,
         color: 'white'
     },
@@ -78,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Home = (props) => {
-    const classes = useStyles()
+    const classes = useStyles();
     let history = useHistory();
 
     const [stepOneActive, setStepOneActive] = React.useState(false);
@@ -88,7 +90,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} />
+            <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
             {/* <h1>Home Page</h1> */}
             <div className={classes.root}>
                 <Grid container justify='center'>
@@ -96,7 +98,6 @@ const Home = (props) => {
                         <Grid item container xs={12} justify='center' spacing={3} className={classes.topSectionBackground}>
 
                             <Grid item xs={12}>
-
                                 <Typography variant='h2' align='center'>The Marketplace for Ideas</Typography>
                             </Grid>
 
@@ -184,7 +185,7 @@ const Home = (props) => {
                         </Grid>
                         <Grid item container xs={12} justify='space-between' spacing={1}>
                             <Grid item xs={12} sm={6} md={5}>
-                                <img src={artisanImage} width='100%' />
+                                <img src={stayTunedImage} width='100%'/>
                             </Grid>
                             <Grid item container xs={12} sm={6} md={7} justify='space-around'>
                                 <Typography variant='h4' align='center' gutter="true">Stay tuned in</Typography>
