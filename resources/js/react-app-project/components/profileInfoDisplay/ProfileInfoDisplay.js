@@ -100,7 +100,7 @@ const ProfileInfoDisplay = (props) => {
                             Address:
                         </Typography>
                         <Typography>
-                            {street}<br />{city}, {state}<br />{postalCode}
+                            {street}<br />{city==='' ? city : city + ','} {state}<br />{postalCode}
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -218,7 +218,7 @@ const ProfileInfoDisplay = (props) => {
                                 </Grid>
                                 <Grid item xs={8} md={9}>
                                     <Typography>
-                                        {street}<br />{city}, {state}<br />{postalCode}
+                                        {street}<br />{city && city + ','} {state}<br />{postalCode}
                                     </Typography>
                                 </Grid>
                             </Grid>

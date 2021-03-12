@@ -182,7 +182,7 @@ const App = () => {
                         <Route exact path='/sell' component={() => <Sell loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
                         <Route exact path='/buy' component={() => <Buy loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
                         <Route exact path='/build' component={() => <Build loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
-                        <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
+                        {/* <Route exact path='/about' component={() => <About loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} /> */}
                         <Route exact path='/get-started' component={() => <GetStarted loggedIn={loggedIn} handleLogout={handleLogout} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
                         <ProtectedRoute exact path='/profile' component={() => <Profile loggedIn={loggedIn} handleLogout={handleLogout} userInfo={userInfo} getUserInfo={getUserInfo} roles={userInfo.roles} currentRoleType={currentRoleType} handleRoleType={handleRoleType} />} />
                         <Route exact path='/create-account' component={CreateAccount} />
