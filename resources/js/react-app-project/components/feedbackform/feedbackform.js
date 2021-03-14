@@ -18,7 +18,7 @@ const FeedbackForm = () => {
         <Container maxWidth='md' style={{ marginTop: 50, marginBottom: 50 }}>
             <Typography variant='h5' gutterBottom>Questions or Feedback? Let us know!</Typography>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} sm={6} lg={6}>
                         <TextField
                             fullWidth
                             id="name-input"
@@ -26,7 +26,7 @@ const FeedbackForm = () => {
                             variant="outlined"
                         />
                     </Grid>
-                    <Grid item xs={12} lg={6}>
+                    <Grid item xs={12} sm={6} lg={6}>
                         <TextField
                             fullWidth
                             id="email-input"
@@ -34,7 +34,7 @@ const FeedbackForm = () => {
                             variant="outlined"
                         />
                     </Grid>
-                    <Grid item lg={12}>
+                    <Grid item xs={12} lg={12}>
                         <TextField
                             fullWidth
                             id="message-input"

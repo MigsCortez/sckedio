@@ -2,7 +2,16 @@ import tableImage from '../images/pexels-pixabay-509922.jpg';
 import designImage from '../images/design.jpeg';
 import threadImage from '../images/pexels-suzy-hazelwood-2564604.jpg';
 import clayImage from '../images/pexels-gabby-k-5302946.jpg';
-import buildPageBG from '../images/starkov1117452.jpeg'
+import buildPageBG from '../images/starkov1117452.jpeg';
+import labImage from '../images/labartisan.jpg';
+import sellSecondPic from '../images/pexels-karolina-grabowska-4491472.jpeg';
+import sellFourthPic from '../images/pexels-ksenia-chernaya-3965539 (1).jpeg';
+import sellFifthPic from '../images/pexels-andrea-piacquadio-3811830.jpeg';
+import buildSecondPic from '../images/pexels-ivan-samkov-4458550.jpeg';
+import buildThirdPic from '../images/design.jpeg';
+import buildFourthPic from '../images/pexels-gabby-k-5302946.jpg';
+import buildFifthPic from '../images/pexels-yan-krukov-4458419.jpeg';
+
 
 
 const SellPage = {
@@ -14,7 +23,7 @@ const SellPage = {
     },
     main: [
         {
-            image: designImage,
+            image: sellSecondPic,
             position: 'left'
         },
 
@@ -29,11 +38,11 @@ const SellPage = {
             position: 'left'
         },
         {
-            image: '../images/design1.jpeg',
+            image: designImage,
             position: 'right'
         },
         {
-            image: '../images/design1.jpeg',
+            image: sellFourthPic,
             position: 'left',
         },
         {
@@ -47,7 +56,7 @@ const SellPage = {
             position: 'left'
         },
         {
-            image: tableImage,
+            image: sellFifthPic,
             position: 'right'
         },
 
@@ -68,11 +77,11 @@ const BuildPage = {
             position: 'left'
         },
         {
-            image: threadImage,
+            image: buildSecondPic,
             position: 'right'
         },
         {
-            image: '../images/design1.jpeg',
+            image: buildThirdPic,
             position: 'left'
         },
 
@@ -87,11 +96,11 @@ const BuildPage = {
             position: 'left'
         },
         {
-            image: '../images/design.jpeg',
+            image: buildFourthPic,
             position: 'right'
         },
         {
-            image: clayImage,
+            image: buildFifthPic,
             position: 'left'
         },
         {

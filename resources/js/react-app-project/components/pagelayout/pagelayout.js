@@ -12,13 +12,15 @@ const PageLayout = ({ pageData }) => {
     const theme = useTheme();
     const useStyles = makeStyles((theme) => ({
         title: {
-            marginTop: theme.spacing(6),
+            marginTop: theme.spacing(3),
             marginBottom: theme.spacing(3),
             [theme.breakpoints.down('xs')]: {
                 fontSize: 34,
             },
         },
         subtitle: {
+            backgroundColor: 'rgba(247,247,242, 0.40)',
+            padding: theme.spacing(1),
             marginBottom: theme.spacing(3),
             [theme.breakpoints.down('xs')]: {
                 fontSize: 18,
@@ -37,11 +39,11 @@ const PageLayout = ({ pageData }) => {
         sectionSubtitle: {
             marginRight: theme.spacing(3),
             marginLeft: theme.spacing(3),
-             color: '#f7f7f2',
+            color: '#f7f7f2',
             [theme.breakpoints.down('md')]: {
                 fontSize: 18,
             },
-             [theme.breakpoints.down('sm')]: {
+            [theme.breakpoints.down('sm')]: {
                 fontSize: 16,
                 marginRight: theme.spacing(1),
                 marginLeft: theme.spacing(1),
@@ -69,7 +71,7 @@ const PageLayout = ({ pageData }) => {
             // width: "100%",
             // margin: 0,
             padding: 70,
-            paddingBottom: 0
+            paddingBottom: 0,
         },
     }))
 
@@ -83,8 +85,8 @@ const PageLayout = ({ pageData }) => {
             <Grid item className={classes.topSectionBackground} xs={12}>{/*Photo background and container of top panel of marketplace text+smaller image*/}
                 <Grid container direction='row' justify='center'>{/*Container of "The marketplace..." text and image on right */}
                     <Grid item xs={12} md={6}>{/*The marketplace for ideas...+Sckedio connects... */}
-                        <Typography variant='h2'className={classes.title}>{pageData.header.title}</Typography>
-                        <Typography variant='h5'className={classes.subtitle}>{pageData.header.subtitle}</Typography>
+                        <Typography variant='h2' className={classes.title}>{pageData.header.title}</Typography>
+                        <Typography variant='h5' className={classes.subtitle}>{pageData.header.subtitle}</Typography>
                         <Box align="center">
                             <Button variant="contained">{pageData.header.button}</Button>
                         </Box>
@@ -96,12 +98,12 @@ const PageLayout = ({ pageData }) => {
                 {pageData.main.map((section, i) => (
                     <Grid item key={i} xs={12} md={6}>
                         { section.image ?
-                        <Hidden only={[ 'sm', 'xs']}>
-                            <Grid container item >{/* Image of artisan drawing on whiteboard*/}
-                                <Grid  item xs={12} >
-                                    <img src={section.image} id="artisan-image" width="100%" alt="artisan-image" />
+                            <Hidden only={['sm', 'xs']}>
+                                <Grid container item >{/* Image of artisan drawing on whiteboard*/}
+                                    <Grid item xs={12} >
+                                        <img src={section.image} id="artisan-image" width="100%" alt="artisan-image" />
+                                    </Grid>
                                 </Grid>
-                            </Grid>
                             </Hidden>
                             :
                             <Grid container item  >{/* Image of artisan drawing on whiteboard*/}
@@ -112,9 +114,9 @@ const PageLayout = ({ pageData }) => {
                             </Grid>
                         }
                     </Grid>
-                ))} 
+                ))}
             </Grid>
-            <FeedbackForm mt={20}/>
+            <FeedbackForm mt={20} />
         </Grid>
     );
 };

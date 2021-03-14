@@ -42,7 +42,15 @@ const GetStarted = (props) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            color: 'white'
+            //mixBlendMode: 'exclusion'
+
+        },
+        title: {
+            color: 'f7f7f2',
+        },
+        subtitle: {
+            color: 'f7f7f2',
+            backgroundColor: 'rgba(247,247,242, 0.40)',
         }
     }
 
@@ -55,14 +63,14 @@ const GetStarted = (props) => {
         // formData.append('idea_type', parseInt(ideaType));
         formData.append('idea_type', ideaType);
         if (Object.keys(publicFiles).length !== 0) {
-            publicFiles.forEach(function(publicFile){
+            publicFiles.forEach(function (publicFile) {
                 formData.append('public_files[]', publicFile);
             })
             console.log('public');
         }
 
         if (Object.keys(privateFiles).length !== 0) {
-            privateFiles.forEach(function(privateFile){
+            privateFiles.forEach(function (privateFile) {
                 formData.append('private_files[]', privateFile);
             })
             console.log('private');
@@ -79,7 +87,7 @@ const GetStarted = (props) => {
         })
 
         authAxios.post('/api/designer/auth/create', formData)
-            .then (res => {
+            .then(res => {
                 console.log(res);
             })
             .catch(err => {
@@ -102,8 +110,8 @@ const GetStarted = (props) => {
 
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <Typography variant='h2'>Share your idea with the world</Typography>
-                                    <Typography variant='h5'>Follow the quick steps below to get your idea onto Sckedio.</Typography>
+                                    <Typography variant='h2' style={styles.title}>Share your idea with the world</Typography>
+                                    <Typography variant='h5'style={styles.subtitle} >Follow the quick steps below to get your idea onto Sckedio.</Typography>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -122,29 +130,29 @@ const GetStarted = (props) => {
                             <Box m={10}>
                                 <Grid item container>
                                     {
-                                        props.currentRoleType==='designer' ?
+                                        props.currentRoleType === 'designer' ?
 
-                                        <GetStartedForm
-                                            ideaName={ideaName}
-                                            setIdeaName={setIdeaName}
-                                            description={description}
-                                            setDescription={setDescription}
-                                            productCategory={productCategory}
-                                            setProductCategory={setProductCategory}
-                                            totalCost={totalCost}
-                                            setTotalCost={setTotalCost}
-                                            stockType={stockType}
-                                            setStockType={setStockType}
-                                            ideaType={ideaType}
-                                            setIdeaType={setIdeaType}
-                                            publicFiles={publicFiles}
-                                            setPublicFiles={setPublicFiles}
-                                            privateFiles={privateFiles}
-                                            setPrivateFiles={setPrivateFiles}
-                                            handleSubmit={handleSubmit}
-                                        />
-                                        :
-                                        <Typography variant='h3'>Sign in as a designer</Typography>
+                                            <GetStartedForm
+                                                ideaName={ideaName}
+                                                setIdeaName={setIdeaName}
+                                                description={description}
+                                                setDescription={setDescription}
+                                                productCategory={productCategory}
+                                                setProductCategory={setProductCategory}
+                                                totalCost={totalCost}
+                                                setTotalCost={setTotalCost}
+                                                stockType={stockType}
+                                                setStockType={setStockType}
+                                                ideaType={ideaType}
+                                                setIdeaType={setIdeaType}
+                                                publicFiles={publicFiles}
+                                                setPublicFiles={setPublicFiles}
+                                                privateFiles={privateFiles}
+                                                setPrivateFiles={setPrivateFiles}
+                                                handleSubmit={handleSubmit}
+                                            />
+                                            :
+                                            <Typography variant='h3'>Sign in as a designer</Typography>
                                     }
                                 </Grid>
                             </Box>

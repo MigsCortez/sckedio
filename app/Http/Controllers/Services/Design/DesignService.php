@@ -110,7 +110,7 @@ class DesignService
     public function handleList()
     {
         $designs = DB::table('users')
-                    ->join('designs', 'users.id', '=', 'owner_id')->where('users.id','!=', auth()->user()->id)
+                    ->join('designs', 'users.id', '=', 'owner_id')
                     ->join('designs_information', 'designs.id', '=', 'design_id')
                     ->join('design_files', 'designs.id', '=', 'design_files.design_id')->where('is_private', 0)
                     ->select(
@@ -136,12 +136,19 @@ class DesignService
                     'designs_information.idea_type_id',)
                     ->get();
 
+
         foreach($designs as $design)
         {
             $design->images = explode(',', $design->images);
             $design->interests = DB::table('buyer_queue')->where('design_id', $design->design_id)->count();
             $buyerInterest = $this->buyerInterested($design->design_id);
             $design->is_interested = $buyerInterest;
+            $privateImages = DB::table('design_files')->select(DB::raw('group_concat(file_route) as private_images'))->where('is_private', 1)->where('design_id', $design->design_id)->get();
+            foreach($privateImages as $privateImage)
+            {
+                $design->private_images = $privateImage->private_images;
+            }
+            $design->private_images = explode(',', $design->private_images);
         }
 
         $designs = json_encode($designs);
