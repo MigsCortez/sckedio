@@ -29,18 +29,30 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileInfoDisplay = (props) => {
     const classes = useStyles();
-    const { username, firstName, lastName, email, street, city, state, postalCode, country, profilePhoto, roles } = props.userInfo;
+    const {
+        username,
+        firstName,
+        lastName,
+        email,
+        street,
+        city,
+        state,
+        postalCode,
+        country,
+        profilePhoto,
+        roles
+    } = props.userInfo;
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
     const convertRoles = () => {
         let rolesString = '';
-        for (let i=0;i<roles.length;i++) {
+        for (let i = 0; i < roles.length; i++) {
             const roleCapitalize = roles[i].charAt(0).toUpperCase() + roles[i].slice(1);
-            if (i<(roles.length-1)) {
-                rolesString=rolesString+roleCapitalize + ', ';
+            if (i < (roles.length - 1)) {
+                rolesString = rolesString + roleCapitalize + ', ';
             } else {
-                rolesString=rolesString+roleCapitalize;
+                rolesString = rolesString + roleCapitalize;
             }
         }
         return rolesString;
@@ -100,7 +112,7 @@ const ProfileInfoDisplay = (props) => {
                             Address:
                         </Typography>
                         <Typography>
-                            {street}<br />{city==='' ? city : city + ','} {state}<br />{postalCode}
+                            {street}<br />{city === '' ? city : city + ','} {state}<br />{postalCode}
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
@@ -161,82 +173,82 @@ const ProfileInfoDisplay = (props) => {
                     </Grid> */}
                 </Grid>
             ) : (
-                    <Grid container spacing={4}>
-                        <Grid container item xs={4}>
-                            <Grid item xs={12}>
-                                <img className={classes.profileImage} src={profilePhoto} />
+                <Grid container spacing={4}>
+                    <Grid container item xs={4}>
+                        <Grid item xs={12}>
+                            <img className={classes.profileImage} src={profilePhoto} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant='h6' color='textSecondary'>ACCOUNT TYPE</Typography>
+                            <Divider />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography className={classes.accounts}>{convertRoles()}</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container item xs={8} >
+                        <Grid item xs={12}>
+                            <Typography variant='h4' gutterBottom>
+                                {firstName} {lastName}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Typography variant='h6' color='textSecondary'>
+                                INFORMATION
+                                </Typography>
+                            <Divider />
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Grid item xs={4} sm={3}>
+                                <Typography>
+                                    Username:
+                                    </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant='h6' color='textSecondary'>ACCOUNT TYPE</Typography>
-                                <Divider />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography className={classes.accounts}>{convertRoles()}</Typography>
+                            <Grid item xs={8} md={9}>
+                                <Typography>
+                                    {username}
+                                </Typography>
                             </Grid>
                         </Grid>
-                        <Grid container item xs={8} >
-                            <Grid item xs={12}>
-                                <Typography variant='h4' gutterBottom>
-                                    {firstName} {lastName}
+                        <Grid container item xs={12}>
+                            <Grid item xs={4} sm={3}>
+                                <Typography>
+                                    Email:
+                                    </Typography>
+                            </Grid>
+                            <Grid item xs={8} md={9}>
+                                <Typography>
+                                    {email}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant='h6' color='textSecondary'>
-                                    INFORMATION
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Grid item xs={4} sm={3}>
+                                <Typography>
+                                    Address:
+                                    </Typography>
+                            </Grid>
+                            <Grid item xs={8} md={9}>
+                                <Typography>
+                                    {street}<br />{city && city + ','} {state}<br />{postalCode}
                                 </Typography>
-                                <Divider />
                             </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={4} sm={3}>
-                                    <Typography>
-                                        Username:
+                        </Grid>
+                        <Grid container item xs={12}>
+                            <Grid item xs={4} sm={3}>
+                                <Typography>
+                                    Country:
                                     </Typography>
-                                </Grid>
-                                <Grid item xs={8} md={9}>
-                                    <Typography>
-                                        {username}
-                                    </Typography>
-                                </Grid>
                             </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={4} sm={3}>
-                                    <Typography>
-                                        Email:
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={8} md={9}>
-                                    <Typography>
-                                        {email}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={4} sm={3}>
-                                    <Typography>
-                                        Address:
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={8} md={9}>
-                                    <Typography>
-                                        {street}<br />{city && city + ','} {state}<br />{postalCode}
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container item xs={12}>
-                                <Grid item xs={4} sm={3}>
-                                    <Typography>
-                                        Country:
-                                    </Typography>
-                                </Grid>
-                                <Grid item xs={8} md={9}>
-                                    <Typography>
-                                        {country}
-                                    </Typography>
-                                </Grid>
+                            <Grid item xs={8} md={9}>
+                                <Typography>
+                                    {country}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </Grid>
-                )}
+                </Grid>
+            )}
         </div>
     );
 

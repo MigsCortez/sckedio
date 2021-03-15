@@ -74,7 +74,8 @@ const ProductInfoDisplay = (props) => {
         setCurrentImage,
         imageArr,
         handleImageClick,
-        loggedIn
+        loggedIn,
+        currentRoleType
     } = props;
     // const {
     //     designer,
