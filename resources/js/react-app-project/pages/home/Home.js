@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import NavBar from '../../components/navBar/NavBar';
 import Footer from '../../components/footer/Footer';
+import Infographic from '../../components/infographic/Infographic';
+import NavBar from '../../components/navBar/NavBar';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
 import Fade from '@material-ui/core/Fade';
@@ -19,6 +20,7 @@ import stayTunedImage from '../../images/pexels-andrea-piacquadio-842554.jpg'
 import workImage from '../../../../assets/work.jpg';
 import whiteboard from '../../../../assets/whiteboard4.jpg'
 import lightbulbImage from '../../../../assets/lightbulb2.jpg'
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -121,8 +123,9 @@ const Home = (props) => {
                             </Grid>
                         </Grid>
 
-                        <Grid item container xs={8}>
-                            <VisibilitySensor onChange={(isVisible) => setStepOneActive(isVisible)}>
+                        <Grid item xs={12}>
+                            <Infographic />
+                            {/* <VisibilitySensor onChange={(isVisible) => setStepOneActive(isVisible)}>
                                 <Fade in={stepOneActive} timeout={500}>
                                     <Grid item container xs={12} className={classes.stepGrid}>
                                         <Grid item container xs={4} align='center' >
@@ -180,7 +183,7 @@ const Home = (props) => {
                                         </Grid>
                                     </Grid>
                                 </Fade>
-                            </VisibilitySensor>
+                            </VisibilitySensor> */}
 
                         </Grid>
                         <Grid item container xs={12} justify='space-between' spacing={1}>
