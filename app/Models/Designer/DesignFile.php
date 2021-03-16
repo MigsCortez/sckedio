@@ -11,14 +11,16 @@ class DesignFile extends Model
     protected $table = 'design_files';
     
     protected $fillable = [
-        'file_route',
+        'filename',
+        'url',
         'is_private',
         'created_at',
         'updated_at',
     ];
 
     protected $visible = [
-        'file_route',
+        'filename',
+        'url',
         'is_private',
     ];
 

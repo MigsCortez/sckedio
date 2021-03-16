@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Design;
 
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Services\Design\DesignService;
 use App\Http\Requests\Designer\CreateRequest;

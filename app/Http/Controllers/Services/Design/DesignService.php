@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Services\Design;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -41,7 +43,7 @@ class DesignService
                     'designs_information.design_cost',
                     'designs_information.category_id',
                     'designs_information.idea_type_id',
-                    DB::raw('group_concat(design_files.file_route) as images'))
+                    DB::raw('group_concat(design_files.url) as images'))
                     ->groupBy(
                     'users.id',
                     'users.username', 
@@ -83,7 +85,7 @@ class DesignService
         'designs_information.design_cost',
         'designs_information.category_id',
         'designs_information.idea_type_id',
-        DB::raw('group_concat(design_files.file_route) as images'))
+        DB::raw('group_concat(design_files.url) as images'))
         ->groupBy(
         'users.id',
         'users.username', 
@@ -103,7 +105,7 @@ class DesignService
         }
 
         return response()->json([
-            'design' => $design,
+            'design' => $designs,
         ]);
     }
 
@@ -123,7 +125,7 @@ class DesignService
                     'designs_information.design_cost',
                     'designs_information.category_id',
                     'designs_information.idea_type_id',
-                    DB::raw('group_concat(design_files.file_route) as images'))
+                    DB::raw('group_concat(design_files.url) as images'))
                     ->groupBy(
                     'users.id',
                     'users.username', 
@@ -146,7 +148,7 @@ class DesignService
 
             if($design->user_id === auth()->user()->id)
             {
-                $privateImages = DB::table('design_files')->select(DB::raw('group_concat(file_route) as private_images'))->where('is_private', 1)->where('design_id', $design->design_id)->get();
+                $privateImages = DB::table('design_files')->select(DB::raw('group_concat(url) as private_images'))->where('is_private', 1)->where('design_id', $design->design_id)->get();
                 
                 foreach($privateImages as $privateImage)
                 {
@@ -178,7 +180,7 @@ class DesignService
         'designs_information.design_cost',
         'designs_information.category_id',
         'designs_information.idea_type_id',
-        DB::raw('group_concat(design_files.file_route) as images'))
+        DB::raw('group_concat(design_files.url) as images'))
         ->groupBy(
         'users.id',
         'users.username', 
@@ -202,7 +204,7 @@ class DesignService
 
             if($design->user_id === auth()->user()->id)
             {
-                $privateImages = DB::table('design_files')->select(DB::raw('group_concat(file_route) as private_images'))->where('is_private', 1)->where('design_id', $design->design_id)->get();
+                $privateImages = DB::table('design_files')->select(DB::raw('group_concat(url) as private_images'))->where('is_private', 1)->where('design_id', $design->design_id)->get();
                 
                 foreach($privateImages as $privateImage)
                 {
@@ -216,28 +218,7 @@ class DesignService
             'design' => $design
         ]);
     }
-    // public function handleShow($id)
-    // {
-    //     $authenticatedUser = $this->getAuthenticatedUser();
-    //     $design = $authenticatedUser->design->where('id', $id)->first();
-        
-    //     if(empty($design))
-    //     {
-    //         return response()->json([
-    //             'message' => 'Error! Could not find design associated with the user.'
-    //         ]);
-    //     }
-    //     $designInformation = $this->getDesignInformation($design);
-    //     $publicFiles = $this->getPublicFiles($design);
-    //     $privateFiles = $this->getPrivateFiles($design);
-
-    //     return response()->json([
-    //         'idea_name' => $design->idea_name,
-    //         'design_information' => $designInformation,
-    //         'public_files' => $publicFiles,
-    //         'private_files' => $privateFiles
-    //     ], 200);
-    // }
+    
     
     //TODO: Update design
     public function handleUpdate($id, object $request)
@@ -313,48 +294,52 @@ class DesignService
         ], 200);
     }
 
-    protected function storePublicFiles(object $request, object $authenticatedUser, object $design, string $idea_name)
+    protected function storePublicFiles(object $request, object $authenticatedUser, object $design, string $ideaName)
     {
-        $public_files = $request->file('public_files');
-        $modified_idea_name = strtolower(str_replace(' ', '_', $idea_name));
-        $image_directory = "public/".$authenticatedUser->username."/".$modified_idea_name."/"."public";
-        foreach($public_files as $public_file)
+        $publicFiles = $request->file('public_files');
+        $ideaName = strtolower(str_replace(' ', '_', $ideaName));
+        $fileDirectory = "users/".$authenticatedUser->username."/".$ideaName."/"."public";
+        $date = str_replace('-', '_', Carbon::now()->toDateString());
+
+        foreach($publicFiles as $publicFile)
             {
-                $filename = $public_file->getClientOriginalName();
-                Storage::putFileAs($image_directory, $public_file, $filename);
-                $image_temp = Storage::url("public/".$authenticatedUser->username."/".$modified_idea_name."/public/".$filename);
-                $this->uploadPublicFiles($filename, $image_temp, $design);
+                $filename = $date.'_'.$publicFile->getClientOriginalName();
+                $path = Storage::disk('s3')->putFileAs($fileDirectory, $publicFile, $filename, 'public');
+                $this->uploadPublicFiles($path, $design);
             }
     }
 
-    protected function storePrivateFiles(object $request, object $authenticatedUser, object $design,string $idea_name)
-    {
-        $private_files = $request->file('private_files');
-        $modified_idea_name = strtolower(str_replace(' ', '_', $idea_name));
-        $image_directory = "public/".$authenticatedUser->username."/".$modified_idea_name."/"."private";
 
-        foreach($private_files as $private_file)
+    protected function storePrivateFiles(object $request, object $authenticatedUser, object $design,string $ideaName)
+    {
+        $privateFiles = $request->file('private_files');
+        $ideaName = strtolower(str_replace(' ', '_', $ideaName));
+        $fileDirectory = "users/".$authenticatedUser->username."/".$ideaName."/"."private";
+        $date = str_replace('-', '_', Carbon::now()->toDateString());
+
+        foreach($privateFiles as $privateFile)
         {
-            $filename = $private_file->getClientOriginalName();
-            Storage::putFileAs($image_directory, $private_file, $filename);
-            $image_temp = Storage::url("public/".$authenticatedUser->username."/".$modified_idea_name."/private/".$filename);
-            $this->uploadPrivateFiles($filename, $image_temp, $design);
+            $filename = $date.'_'.$privateFile->getClientOriginalName();
+            $path = Storage::disk('s3')->putFileAs($fileDirectory, $privateFile, $filename, 'public');
+            $this->uploadPrivateFiles($path, $design);
         }
     }
 
-    protected function uploadPublicFiles(string $filename, string $image_directory, object $design)
+    protected function uploadPublicFiles(string $path, object $design)
     {
         $designFile = new DesignFile([
-                    'file_route' => $image_directory,
+                    'filename' => basename($path),
+                    'url' => Storage::disk('s3')->url($path),
                     'is_private' => 0,
                 ]);
         $this->saveDesign($designFile, $design);
     }
 
-    protected function uploadPrivateFiles(string $filename, string $image_directory, object $design)
+    protected function uploadPrivateFiles(string $path, object $design)
     {
         $designFile = new DesignFile([
-                    'file_route' => $image_directory,
+                    'filename' => basename($path),
+                    'url' => Storage::disk('s3')->url($path),
                     'is_private' => 1,
                 ]);
         $this->saveDesign($designFile, $design);
@@ -397,4 +382,5 @@ class DesignService
             return false;
         }
     }
+
 }
