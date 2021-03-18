@@ -85,8 +85,8 @@ const PageLayout = ({ pageData }) => {
             <Grid item className={classes.topSectionBackground} xs={12}>{/*Photo background and container of top panel of marketplace text+smaller image*/}
                 <Grid container direction='row' justify='center'>{/*Container of "The marketplace..." text and image on right */}
                     <Grid item xs={12} md={6}>{/*The marketplace for ideas...+Sckedio connects... */}
-                        <Typography variant='h2' className={classes.title}>{pageData.header.title}</Typography>
-                        <Typography variant='h5' className={classes.subtitle}>{pageData.header.subtitle}</Typography>
+                        <Typography variant='h2' align='center' className={classes.title}>{pageData.header.title}</Typography>
+                        <Typography variant='h5' align='center' className={classes.subtitle}>{pageData.header.subtitle}</Typography>
                         <Box align="center">
                             <Button variant="contained">{pageData.header.button}</Button>
                         </Box>

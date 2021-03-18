@@ -13,10 +13,14 @@ import Menu from '@material-ui/core/Menu';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import auth from '../../auth';
 import { withRouter } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import logo from '../../images/sckedio-logo.png';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+
     },
     menuButton: {
         // marginRight: theme.spacing(2),
@@ -31,9 +35,16 @@ const useStyles = makeStyles((theme) => ({
             paddingRight: theme.spacing(1)
         }
     },
-    title: {
+    image: {
+        alignItems: 'center',
         flexGrow: 1,
     },
+    menu: {
+        justifyContent: "flex-end",
+    },
+    title: {
+        marginLeft: theme.spacing(1),
+    }
 }));
 
 const NavBar = (props) => {
@@ -68,8 +79,8 @@ const NavBar = (props) => {
             itemPath: '/build'
         },
         // {
-            // itemName: 'About',
-            // itemPath: '/about'
+        // itemName: 'About',
+        // itemPath: '/about'
         // }
     ];
 
@@ -100,7 +111,7 @@ const NavBar = (props) => {
     };
 
     return (
-        <div className={classes.root}>
+        <Grid container className={classes.root}>
             <AppBar
                 // position="fixed"
                 // color="#ffffff"
@@ -110,10 +121,16 @@ const NavBar = (props) => {
                 <Toolbar
                     className={classes.mobileToolbar}
                 >
-                    <Typography variant="h5" className={classes.title}>
-                        Sckedio
-                    </Typography>
-                    <div>
+                    <Grid container className={classes.image} align="center">
+                        <Box>
+                            <img src={logo} width='60' height='60' />
+                        </Box>
+                        <Typography variant="h5" align='center' className={classes.title}>
+                            Sckedio
+                     </Typography>
+
+                    </Grid>
+                    <Grid container className={classes.menu}>
                         {isMobile ? (
                             <div>
                                 {loggedIn &&
@@ -230,7 +247,7 @@ const NavBar = (props) => {
                             </div>
                         ) :
                             (
-                                <div>
+                                <Grid item >
                                     {navItems.map((item, i) => (
                                         <Button
                                             key={i}
@@ -314,13 +331,13 @@ const NavBar = (props) => {
                                             </Button>
                                         )}
 
-                                </div>
+                                </Grid>
                             )
                         }
-                    </div>
+                    </Grid>
                 </Toolbar>
             </AppBar>
-        </div>
+        </Grid>
     );
 }
 
