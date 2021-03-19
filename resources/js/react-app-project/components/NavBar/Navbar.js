@@ -15,6 +15,7 @@ import auth from '../../auth';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import logo from '../../images/sckedio-logo.png';
+import Hidden from '@material-ui/core/Hidden';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,11 +36,12 @@ const useStyles = makeStyles((theme) => ({
             paddingRight: theme.spacing(1)
         }
     },
-    image: {
+    logo: {
         alignItems: 'center',
         flexGrow: 1,
     },
     menu: {
+        whiteSpace: 'nowrap',
         justifyContent: "flex-end",
     },
     title: {
@@ -121,13 +123,15 @@ const NavBar = (props) => {
                 <Toolbar
                     className={classes.mobileToolbar}
                 >
-                    <Grid container className={classes.image} align="center">
+                    <Grid container className={classes.logo} align="center">
                         <Box>
                             <img src={logo} width='60' height='60' />
                         </Box>
-                        <Typography variant="h5" align='center' className={classes.title}>
-                            Sckedio
-                     </Typography>
+                        <Hidden only='xs'>
+                            <Typography variant="h5" className={classes.title}>
+                                Sckedio
+                            </Typography>
+                        </Hidden>
 
                     </Grid>
                     <Grid container className={classes.menu}>
