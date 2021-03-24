@@ -56,7 +56,9 @@ function getStepContent(step, props) {
         publicFiles,
         setPublicFiles,
         privateFiles,
-        setPrivateFiles
+        setPrivateFiles,
+        categoriesArray,
+        ideaTypesArray
     } = props;
 
     // const [categoryValue, setCategory] = React.useState('clothing-accessories');
@@ -117,16 +119,9 @@ function getStepContent(step, props) {
                                     value={productCategory} 
                                     onChange={event => setProductCategory(event.target.value)}
                                     >
-                                        <FormControlLabel value="1" control={<Radio />} label="Clothing/Accessories" />
-                                        {/* <FormControlLabel value="Fashion" control={<Radio />} label="Fashion" /> */}
-                                        <FormControlLabel value="2" control={<Radio />} label="Toys/Games" />
-                                        <FormControlLabel value="3" control={<Radio />} label="Technology" />
-                                        <FormControlLabel value="4" control={<Radio />} label="Transport" />
-                                        <FormControlLabel value="5" control={<Radio />} label="Furniture/Interior Design" />
-                                        <FormControlLabel value="6" control={<Radio />} label="Art" />
-                                        <FormControlLabel value="7" control={<Radio />} label="Home Goods" />
-                                        <FormControlLabel value="8" control={<Radio />} label="Everyday Use" />
-                                        <FormControlLabel value="9" control={<Radio />} label="Other" />
+                                        {categoriesArray.map(category=>{
+                                            return <FormControlLabel key={category.id} value={category.id.toString()} control={<Radio />} label={category.category} />
+                                        })}
                                     </RadioGroup>
                                 </FormControl>
                             </div>
@@ -150,11 +145,9 @@ function getStepContent(step, props) {
                                         value={ideaType} 
                                         onChange={event => setIdeaType(event.target.value)}
                                     >
-                                        <FormControlLabel value="1" control={<Radio />} label="Just an idea" />
-                                        <FormControlLabel value="2" control={<Radio />} label="A few sketches" />
-                                        <FormControlLabel value="3" control={<Radio />} label="Some detailed drawings" />
-                                        <FormControlLabel value="4" control={<Radio />} label="Factory-ready design" />
-                                        <FormControlLabel value="5" control={<Radio />} label="I'll make my idea myself" />
+                                        {ideaTypesArray.map(ideaType=>{
+                                            return <FormControlLabel key={ideaType.id} value={ideaType.id.toString()} control={<Radio />} label={ideaType.idea_type} />
+                                        })}
                                     </RadioGroup>
                                 </FormControl>
                             </div>

@@ -21,11 +21,24 @@ const GetStarted = (props) => {
     const [ideaType, setIdeaType] = React.useState('1');
     const [publicFiles, setPublicFiles] = React.useState({});
     const [privateFiles, setPrivateFiles] = React.useState({});
+    const [categoriesArray, setCategoriesArray] = React.useState([]);
+    const [ideaTypesArray, setIdeaTypesArray] = React.useState([]);
+
     useEffect(() => {
-        console.log('public: ' + publicFiles);
-        // console.log(Object.keys(publicFiles).length === 0);
-        console.log(privateFiles);
-    }, [publicFiles, privateFiles]);
+        axios.get('/api/categories')
+        .then(res => {
+            console.log(res);
+            setCategoriesArray(res.data);
+        })
+        .catch(err=>console.log(err));
+
+        axios.get('/api/idea-types')
+        .then(res => {
+            console.log(res);
+            setIdeaTypesArray(res.data);
+        })
+        .catch(err=>console.log(err));
+    }, []);
 
     const styles = {
         topSectionBackground: {
@@ -150,6 +163,8 @@ const GetStarted = (props) => {
                                                 privateFiles={privateFiles}
                                                 setPrivateFiles={setPrivateFiles}
                                                 handleSubmit={handleSubmit}
+                                                categoriesArray={categoriesArray}
+                                                ideaTypesArray={ideaTypesArray}
                                             />
                                             :
                                             <Typography variant='h3'>Sign in as a designer</Typography>

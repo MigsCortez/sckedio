@@ -162,11 +162,11 @@ const Home = (props) => {
                                     </Grid>
                                     <Grid item>
 
-                                        <Button variant='contained' color='primary'>Build</Button>
+                                        <Button variant='contained' color='primary' onClick={() => history.push('/build')}>Build</Button>
                                     </Grid>
                                     <Grid item>
 
-                                        <Button variant='contained' color='primary'>Buy New Products</Button>
+                                        <Button variant='contained' color='primary' onClick={() => history.push('/buy')}>Buy New Products</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

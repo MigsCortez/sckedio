@@ -159,7 +159,7 @@ const Profile = (props) => {
             });
 
             console.log(userUpdateInfo);
-            authAxios.put('/api/auth/update-user-information', userUpdateInfo)
+            authAxios.post('/api/auth/update-user-information', userUpdateInfo)
                 // authAxios.post('/api/auth/create-user-information', userUpdateInfo)
                 .then(res => {
                     console.log(res);
