@@ -45,27 +45,27 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const convertCategory = (number) => {
-    if (number === 1) {
-        return 'Clothing/Accessories'
-    } else if (number === 2) {
-        return 'Toys/Games'
-    } else if (number == 3) {
-        return 'Technology'
-    } else if (number === 4) {
-        return 'Transport'
-    } else if (number === 5) {
-        return 'Furniture/Interior Design'
-    } else if (number === 6) {
-        return 'Art'
-    } else if (number === 7) {
-        return 'Home Goods'
-    } else if (number === 8) {
-        return 'Everyday Use'
-    } else if (number === 9) {
-        return 'Other'
-    }
-};
+// const convertCategory = (number) => {
+//     if (number === 1) {
+//         return 'Clothing/Accessories'
+//     } else if (number === 2) {
+//         return 'Toys/Games'
+//     } else if (number == 3) {
+//         return 'Technology'
+//     } else if (number === 4) {
+//         return 'Transport'
+//     } else if (number === 5) {
+//         return 'Furniture/Interior Design'
+//     } else if (number === 6) {
+//         return 'Art'
+//     } else if (number === 7) {
+//         return 'Home Goods'
+//     } else if (number === 8) {
+//         return 'Everyday Use'
+//     } else if (number === 9) {
+//         return 'Other'
+//     }
+// };
 
 const ProductInfoDisplay = (props) => {
     const classes = useStyles();
@@ -125,7 +125,7 @@ const ProductInfoDisplay = (props) => {
         <div className={classes.root}>
             <div>
                 <Box my={3}>
-                    <Typography variant='h3'>{convertCategory(category)}</Typography>
+                    <Typography variant='h3'>{category}</Typography>
                 </Box>
                 <Grid container spacing={4}>
                     <Grid container item xs={12} md={4} justify='center'>

@@ -27,121 +27,146 @@ const Product = (props) => {
     const [currentImage, setCurrentImage] = React.useState();
     const [imageArr, setImageArr] = React.useState();
 
-    useEffect(() => {
-        const jwToken = auth.getToken();
-        const authAxios = axios.create({
-            headers: {
-                Authorization: `Bearer ${jwToken}`,
-                'Content-Type': 'multipart/form-data'
+    const catConvert = (design, arr) => {
+        let newDesign = design;
+        arr.forEach(catIndex => {
+            if (design.category_id === catIndex.id) {
+                newDesign.category_id = catIndex.category;
             }
-        });
+        })
+        // console.log(newDesign);
+        return newDesign;
+    };
 
-        if (props.loggedIn) {
-            console.log('role type:' + props.currentRoleType);
-            authAxios.get('/api/designer/auth/show/' + id)
-                .then(res => {
-                    console.log(res);
-                    setProduct(res.data.design);
-                    setCurrentImage(res.data.design.images[0]);
-                    const newImageArr = res.data.design.images.map((individualImage, i) => {
-                        return {
-                            src: individualImage,
-                            active: i === 0
-                        }
-                    });
-
-                    if (res.data.design.private_images) {
-                        // console.log(res.data.design.private_images);
-                        res.data.design.private_images.forEach((individualImage) => {
-                            const newArrEntry = {
-                                src: individualImage,
-                                active: false
-                            };
-                            newImageArr.push(newArrEntry);
-                        });
+    useEffect(() => {
+        axios.get('/api/categories')
+            .then(resOne => {
+                const jwToken = auth.getToken();
+                const authAxios = axios.create({
+                    headers: {
+                        Authorization: `Bearer ${jwToken}`,
+                        'Content-Type': 'multipart/form-data'
                     }
+                });
 
-                    setImageArr(newImageArr);
+                if (props.loggedIn) {
+                    console.log('role type:' + props.currentRoleType);
+                    authAxios.get('/api/designer/auth/show/' + id)
+                        .then(res => {
+                            console.log(res);
+                            const convertedProduct = catConvert(res.data.design, resOne.data);
+                            setProduct(convertedProduct);
+                            setCurrentImage(res.data.design.images[0]);
+                            const newImageArr = res.data.design.images.map((individualImage, i) => {
+                                return {
+                                    src: individualImage,
+                                    active: i === 0
+                                }
+                            });
 
-                    setLoading(false);
-                })
-                .catch(err => console.log(err));
-        } else {
+                            if (res.data.design.private_images) {
+                                // console.log(res.data.design.private_images);
+                                res.data.design.private_images.forEach((individualImage) => {
+                                    const newArrEntry = {
+                                        src: individualImage,
+                                        active: false
+                                    };
+                                    newImageArr.push(newArrEntry);
+                                });
+                            }
 
-            axios.get('/api/designer/show-design/' + id)
-                .then(res => {
-                    console.log(res);
-                    setProduct(res.data.design);
-                    setCurrentImage(res.data.design.images[0]);
-                    const newImageArr = res.data.design.images.map((individualImage, i) => {
-                        return {
-                            src: individualImage,
-                            active: i === 0
-                        }
-                    });
-                    setImageArr(newImageArr);
-                    setLoading(false);
-                })
-                .catch(err => console.log(err));
-        }
+                            setImageArr(newImageArr);
 
+                            setLoading(false);
+                        })
+                        .catch(err => console.log(err));
+
+                } else {
+
+                    axios.get('/api/designer/show-design/' + id)
+                        .then(res => {
+                            console.log(res);
+                            const convertedProduct = catConvert(res.data.design[0], resOne.data);
+                            setProduct(convertedProduct);
+                            setCurrentImage(res.data.design[0].images[0]);
+                            const newImageArr = res.data.design[0].images.map((individualImage, i) => {
+                                return {
+                                    src: individualImage,
+                                    active: i === 0
+                                }
+                            });
+                            setImageArr(newImageArr);
+                            setLoading(false);
+                        })
+                        .catch(err => console.log(err));
+                }
+
+            })
+            .catch(err => console.log(err));
 
     }, [props.currentRoleType]);
 
     const getDesign = () => {
-        const jwToken = auth.getToken();
-        const authAxios = axios.create({
-            headers: {
-                Authorization: `Bearer ${jwToken}`,
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-
-        if (props.loggedIn) {
-            authAxios.get('/api/designer/auth/show/' + id)
-                .then(res => {
-                    console.log(res);
-                    setProduct(res.data.design);
-                    setCurrentImage(res.data.design.images[0]);
-                    const newImageArr = res.data.design.images.map((individualImage, i) => {
-                        return {
-                            src: individualImage,
-                            active: i === 0
-                        }
-                    });
-
-                    if (res.data.design.private_images) {
-                        // console.log(res.data.design.private_images);
-                        res.data.design.private_images.forEach((individualImage) => {
-                            const newArrEntry = {
-                                src: individualImage,
-                                active: false
-                            };
-                            newImageArr.push(newArrEntry);
-                        });
+        axios.get('/api/categories')
+            .then(resOne => {
+                const jwToken = auth.getToken();
+                const authAxios = axios.create({
+                    headers: {
+                        Authorization: `Bearer ${jwToken}`,
+                        'Content-Type': 'multipart/form-data'
                     }
+                });
 
-                    setImageArr(newImageArr);
-                    // setLoading(false);
-                })
-                .catch(err => console.log(err));
-        } else {
-            axios.get('/api/designer/show-design/' + id)
-                .then(res => {
-                    console.log(res);
-                    setProduct(res.data.design);
-                    setCurrentImage(res.data.design.images[0]);
-                    const newImageArr = res.data.design.images.map((individualImage, i) => {
-                        return {
-                            src: individualImage,
-                            active: i === 0
-                        }
-                    });
-                    setImageArr(newImageArr);
-                    // setLoading(false);
-                })
-                .catch(err => console.log(err));
-        }
+                if (props.loggedIn) {
+                    authAxios.get('/api/designer/auth/show/' + id)
+                        .then(res => {
+                            console.log(res);
+                            const convertedProduct = catConvert(res.data.design, resOne.data);
+                            setProduct(convertedProduct);
+                            setCurrentImage(res.data.design.images[0]);
+                            const newImageArr = res.data.design.images.map((individualImage, i) => {
+                                return {
+                                    src: individualImage,
+                                    active: i === 0
+                                }
+                            });
+
+                            if (res.data.design.private_images) {
+                                // console.log(res.data.design.private_images);
+                                res.data.design.private_images.forEach((individualImage) => {
+                                    const newArrEntry = {
+                                        src: individualImage,
+                                        active: false
+                                    };
+                                    newImageArr.push(newArrEntry);
+                                });
+                            }
+
+                            setImageArr(newImageArr);
+                            // setLoading(false);
+                        })
+                        .catch(err => console.log(err));
+                } else {
+                    axios.get('/api/designer/show-design/' + id)
+                        .then(res => {
+                            console.log(res);
+                            const convertedProduct = catConvert(res.data.design[0], resOne.data);
+                            setProduct(convertedProduct);
+                            setCurrentImage(res.data.design[0].images[0]);
+                            const newImageArr = res.data.design[0].images.map((individualImage, i) => {
+                                return {
+                                    src: individualImage,
+                                    active: i === 0
+                                }
+                            });
+                            setImageArr(newImageArr);
+                            // setLoading(false);
+                        })
+                        .catch(err => console.log(err));
+                }
+            })
+            .catch(err => console.log(err));
+
 
     };
 

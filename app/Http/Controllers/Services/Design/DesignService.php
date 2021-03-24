@@ -298,7 +298,7 @@ class DesignService
     {
         $publicFiles = $request->file('public_files');
         $ideaName = strtolower(str_replace(' ', '_', $ideaName));
-        $fileDirectory = "users/".$authenticatedUser->username."/".$ideaName."/"."public";
+        $fileDirectory = "users/".$authenticatedUser->username."/"."designs/".$ideaName."/"."public";
         $date = str_replace('-', '_', Carbon::now()->toDateString());
 
         foreach($publicFiles as $publicFile)
@@ -314,7 +314,7 @@ class DesignService
     {
         $privateFiles = $request->file('private_files');
         $ideaName = strtolower(str_replace(' ', '_', $ideaName));
-        $fileDirectory = "users/".$authenticatedUser->username."/".$ideaName."/"."private";
+        $fileDirectory = "users/".$authenticatedUser->username."/"."designs/".$ideaName."/"."private";
         $date = str_replace('-', '_', Carbon::now()->toDateString());
 
         foreach($privateFiles as $privateFile)

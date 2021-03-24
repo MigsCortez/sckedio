@@ -75,8 +75,11 @@ class ProxyRequest
 
         $proxy = json_decode($proxy->getContent(), true);
 
-        $this->setHttpOnlyCookie($proxy['refresh_token']);
-        
+        if(!empty($proxy['refresh_token']))
+        {
+            $this->setHttpOnlyCookie($proxy['refresh_token']);
+        }
+
         return $proxy;
     }
 

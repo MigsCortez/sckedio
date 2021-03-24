@@ -10,13 +10,22 @@ class OAuthTokenController extends Controller
 {
     protected $proxy;
 
-    public function __construct(ProxyRequest $proxy){
+    public function __construct(ProxyRequest $proxy)
+    {
         $this->proxy = $proxy;
     }
 
-    public function refresh() {
+    public function refresh() 
+    {
 
         $response = $this->proxy->refreshAccessToken();
+
+        if(empty($response['refresh_token']))
+        {
+            return response()->json([
+                'message' => ''
+            ], 403);
+        }
 
         return response()->json([
         'access_token' => $response['access_token'],

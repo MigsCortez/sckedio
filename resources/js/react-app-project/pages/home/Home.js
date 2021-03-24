@@ -85,10 +85,59 @@ const Home = (props) => {
     const classes = useStyles();
     let history = useHistory();
 
-    const [stepOneActive, setStepOneActive] = React.useState(false);
-    const [stepTwoActive, setStepTwoActive] = React.useState(false);
-    const [stepThreeActive, setStepThreeActive] = React.useState(false);
-    const [stepFourActive, setStepFourActive] = React.useState(false);
+    const [formName, setFormName] = React.useState('');
+    const [formEmail, setFormEmail] = React.useState('');
+    const [formButtonText, setFormButtonText] = React.useState('Subscribe');
+    const [emailHelper, setEmailHelper] = React.useState('');
+    const [nameHelper, setNameHelper] = React.useState('');
+
+    const handleSendForm = () => {
+        const formObj = {
+            name: formName,
+            email: formEmail
+        };
+
+        const isValid = validateInputs();
+
+        if (isValid) {
+            axios.post('/api/subscriber/create', formObj)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err => console.log(err))
+                .then(() => {
+                    setFormButtonText('Success!');
+                    setFormName('');
+                    setFormEmail('');
+                });
+        }
+
+    };
+
+    const validateInputs = () => {
+
+        const emailIsValid = /\S+@\S+\.\S+/.test(formEmail);
+
+        const nameIsValid = formName.length > 0;
+
+        if (!emailIsValid) {
+            setEmailHelper('Please enter a valid email');
+        } else {
+            setEmailHelper('');
+        }
+
+        if (!nameIsValid) {
+            setNameHelper('Please enter a name');
+        } else {
+            setNameHelper('');
+        }
+
+        if (nameIsValid && emailIsValid) {
+            return true;
+        } else {
+            return false;
+        }
+    };
 
     return (
         <div>
@@ -125,85 +174,49 @@ const Home = (props) => {
 
                         <Grid item xs={12}>
                             <Infographic />
-                            {/* <VisibilitySensor onChange={(isVisible) => setStepOneActive(isVisible)}>
-                                <Fade in={stepOneActive} timeout={500}>
-                                    <Grid item container xs={12} className={classes.stepGrid}>
-                                        <Grid item container xs={4} align='center' >
-                                            <Box borderRadius='50%' border={1} height={80} width={80} display='flex' alignItems='center' justifyContent='center' className={classes.stepGridIcon}>
-                                                <AddIcon className={classes.circleGrid} />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item container xs={8} alignItems='center'>
-                                            <Typography variant='h4' className={classes.stepGridText}>Step 1: Create the idea of your dreams!</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Fade>
-                            </VisibilitySensor>
-
-                            <VisibilitySensor onChange={(isVisible) => setStepTwoActive(isVisible)}>
-                                <Fade in={stepTwoActive} timeout={500}>
-                                    <Grid item container xs={12} className={classes.stepGrid}>
-                                        <Grid item container xs={4} align='center' >
-                                            <Box borderRadius='50%' border={1} height={80} width={80} display='flex' alignItems='center' justifyContent='center' className={classes.stepGridIcon}>
-                                                <AddIcon className={classes.circleGrid} />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item container xs={8} alignItems='center'>
-                                            <Typography variant='h4' className={classes.stepGridText}>Step 2: Upload your design to Sckedio! Include images, plans, or just an idea!</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Fade>
-                            </VisibilitySensor>
-
-                            <VisibilitySensor onChange={(isVisible) => setStepThreeActive(isVisible)}>
-                                <Fade in={stepThreeActive} timeout={500}>
-                                    <Grid item container xs={12} className={classes.stepGrid}>
-                                        <Grid item container xs={4} align='center' >
-                                            <Box borderRadius='50%' border={1} height={80} width={80} display='flex' alignItems='center' justifyContent='center' className={classes.stepGridIcon}>
-                                                <AddIcon className={classes.circleGrid} />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item container xs={8} alignItems='center' >
-                                            <Typography variant='h4' className={classes.stepGridText} >Step 3: Manufactors find design and put in bids.</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Fade>
-                            </VisibilitySensor>
-
-                            <VisibilitySensor onChange={(isVisible) => setStepFourActive(isVisible)}>
-                                <Fade in={stepFourActive}>
-                                    <Grid item container xs={12} className={classes.stepGrid}>
-                                        <Grid item container xs={4} align='center' >
-                                            <Box borderRadius='50%' border={1} height={80} width={80} display='flex' alignItems='center' justifyContent='center' className={classes.stepGridIcon}>
-                                                <AddIcon className={classes.circleGrid} />
-                                            </Box>
-                                        </Grid>
-                                        <Grid item container xs={8} alignItems='center'>
-                                            <Typography variant='h4' className={classes.stepGridText}>Step 4: Buyers find products they like and denote their interest in them.</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Fade>
-                            </VisibilitySensor> */}
 
                         </Grid>
                         <Grid item container xs={12} justify='space-between' spacing={1}>
                             <Grid item xs={12} sm={6} md={5}>
-                                <img src={stayTunedImage} width='100%'/>
+                                <img src={stayTunedImage} width='100%' />
                             </Grid>
                             <Grid item container xs={12} sm={6} md={7} justify='space-around'>
                                 <Typography variant='h4' align='center' gutter="true">Stay tuned in</Typography>
                                 <Typography variant='h5' align='center' gutter="true" className={classes.formSubtitle}>Sckedio embraces the spirit of innovation, so make sure to keep up to date on our big changes</Typography>
                                 <Grid item container xs={12} spacing={1} align='center' className="forms">
                                     <Grid item xs={12} sm={12} md={4}>
-                                        <TextField id="form-name" label="Name" variant="outlined" size='small' />
+                                        <TextField
+                                            id="form-name"
+                                            label="Name"
+                                            variant="outlined"
+                                            size='small'
+                                            value={formName}
+                                            onChange={event => setFormName(event.target.value)}
+                                            error={nameHelper === '' ? false : true}
+                                            helperText={nameHelper}
+                                        />
                                     </Grid>
 
                                     <Grid item xs={12} sm={12} md={4}>
-                                        <TextField id="form-email" label="Email" variant="outlined" size='small' />
+                                        <TextField
+                                            id="form-email"
+                                            label="Email"
+                                            variant="outlined"
+                                            size='small'
+                                            value={formEmail}
+                                            onChange={event => setFormEmail(event.target.value)}
+                                            error={emailHelper === '' ? false : true}
+                                            helperText={emailHelper}
+                                        />
                                     </Grid>
 
                                     <Grid item xs={12} sm={12} md={4}>
-                                        <Button variant="contained" color="primary" className={classes.subscribe}>Subscribe</Button>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.subscribe}
+                                            onClick={handleSendForm}
+                                        >{formButtonText}</Button>
                                     </Grid>
                                 </Grid>
                             </Grid>

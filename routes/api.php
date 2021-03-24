@@ -4,22 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Design\DesignController;
 use App\Http\Controllers\Buyer\BuyerController;
+use App\Http\Controllers\Manufacturer\ManufacturerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthTokenController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+use App\Http\Controllers\SubscriberController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -30,6 +22,13 @@ Route::get('users/', [ApiController::class, 'list']);
 Route::get('categories', [ApiController::class, 'getCategories']);
 Route::get('idea-types', [ApiController::class, 'getIdeaTypes']);
 Route::get('stock-types', [ApiController::class, 'getStockTypes']);
+
+Route::group([
+    'prefix' => 'subscriber'
+], function() {
+    Route::post('create', [SubscriberController::class, 'create']);
+    Route::delete('delete/{email}', [SubscriberController::class, 'delete']);
+});
 
 Route::group([
     'prefix'=> 'auth'
@@ -50,7 +49,7 @@ Route::group([
         //UserInformationController
         Route::get('show-user-information', [UserInformationController::class, 'show']);
         Route::post('create-user-information', [UserInformationController::class, 'create']);
-        Route::put('update-user-information', [UserInformationController::class, 'update']);
+        Route::post('update-user-information', [UserInformationController::class, 'update']);
 
         //UserController
         Route::get('show-user', [UserController::class, 'show']);
@@ -96,6 +95,15 @@ Route::group([
     });
 });
 
+Route::group(['prefix' => 'manufacturer'
+], function(){
+    Route::group([
+        'prefix' => 'auth','middleware' => 'auth:api'
+    ], function(){
+        Route::post('create/{id}', [ManufacturerController::class, 'create']);
+    });
+});
+
 Route::group([
     'prefix' => 'guest'
 ], function() {
@@ -108,3 +116,4 @@ Route::group([
         Route::post('/reset-password', [PasswordController::class, 'update_password'])->name('password.update');
     });
 });
+

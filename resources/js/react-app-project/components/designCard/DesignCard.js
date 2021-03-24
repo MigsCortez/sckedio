@@ -103,7 +103,8 @@ const DesignCard = (props) => {
                         {designer}
                     </Typography>
                     <Typography variant='body2' color='textSecondary' component='p'>
-                        {convertCategory(category)}
+                        {/* {convertCategory(category)} */}
+                        {category}
                     </Typography>
                     <Typography variant='body2' color='textSecondary' component='p'>
                         Interest: {interest}

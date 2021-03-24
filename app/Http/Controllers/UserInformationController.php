@@ -2,27 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\UserInformation;
 use App\Models\User;
+use App\Models\DisplayPicture;
+
 // Requests
 use App\Http\Requests\UserRequest\UpdateRequest;
 
 class UserInformationController extends Controller
 {
     public function show(Request $request) {
-        $user_id = Auth::id();
-        $user_information = User::find($user_id)->user_information;
+        $userId = Auth::id();
+        $userInformation = User::find($userId)->user_information;
 
-        if(empty($user_information)){
+        if(!empty(auth()->user()->activeDisplayPicture))
+        {
+            $userInformation->display_picture = auth()->user()->activeDisplayPicture->pluck('url')->first();
+        }
+
+        if(empty($userInformation)){
             return response()->json([
                 'message' => 'User Information not found.'
             ], 404);
         }
 
-        return response()->json([$user_information]);
+        return response()->json([$userInformation]);
     }
 
     public function update(UpdateRequest $request) 
@@ -30,20 +40,40 @@ class UserInformationController extends Controller
         $validData = $request->validated();
 
         $user = Auth::user();
-        $user_credentials = User::findOrFail($user->id);
-        $user_information = $user_credentials->user_information;
+        $userCredentials = User::findOrFail($user->id);
+        $userInformation = $userCredentials->user_information;
         
+        $date = str_replace('-', '_', Carbon::now()->toDateString());
+
+        // Checks if display_picture has data.
+        if(!empty($request->file('display_picture')))
+        {
+            $fileDirectory = "users/".$user->username."/"."display_pictures";
+            $displayPicture = $request->file('display_picture');
+            $filename = $date.'_'.$displayPicture->getClientOriginalName();
+            $path = Storage::disk('s3')->putFileAs($fileDirectory, $displayPicture, $filename, 'public');
+
+            $displayPictureFile = new DisplayPicture([
+                'filename' => basename($path),
+                'url' => Storage::disk('s3')->url($path),
+                'is_active' => 1,
+            ]);
+
+            $displayPictureFile->user()->associate($user);
+            $displayPictureFile->save();
+        }
+
         // Checks if username, role and/or email are blank.
         if(!empty($request->username) || !empty($request->email)) 
         {
-            $user_credentials->fill($validData)->save();
+            $userCredentials->fill($validData)->save();
         }
 
-        if(!empty($user_information))
+        if(!empty($userInformation))
         {
-           $user_information->user()->associate($user);
-           $user_information->fill($validData);
-           $user_information->save();
+           $userInformation->user()->associate($user);
+           $userInformation->fill($validData);
+           $userInformation->save();
         } 
         else 
         {
