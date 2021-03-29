@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Services\UserAuthentication;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\UserInformation;
 use App\Utilities\ProxyRequest;
+use App\Models\DisplayPicture;
+use App\Models\UserInformation;
 use App\Models\User;
 
 class UserAuthenticationService
@@ -82,6 +83,16 @@ class UserAuthenticationService
         $user = Auth::user();
         $user_information = User::find($user->id)->user_information;
         $role = $user->roles->pluck('name');
+        
+        if(!empty(auth()->user()->activeDisplayPicture))
+        {
+            $user->display_picture = auth()->user()->activeDisplayPicture->pluck('url')->first();
+        }
+        else
+        {
+            $user->display_picture = "";
+        }
+
         return response()->json([
             $user, 
             $user_information,

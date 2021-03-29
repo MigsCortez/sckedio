@@ -28,15 +28,20 @@ const Profile = (props) => {
 
     // for modal
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
+    const handleOpen = (modalType) => {
+        setModalType(modalType);
         setOpen(true);
     };
     const handleClose = () => {
         setOpen(false);
+        setModalType('');
+        setNewProfileImage({});
     };
 
     const [usernameHelper, setUsernameHelper] = React.useState('');
     const [emailHelper, setEmailHelper] = React.useState('');
+    const [newProfileImage, setNewProfileImage] = React.useState({});
+    const [modalType, setModalType] = React.useState('');
 
     // const [userInfo, setUserInfo] = React.useState({
     //     username: null,
@@ -83,52 +88,6 @@ const Profile = (props) => {
 
     }, [userInfo]);
 
-    // useEffect(() => {
-    //     console.log('profile reload');
-    //     // const jwToken = localStorage.getItem('token');
-    //     const jwToken = auth.getToken();
-    //     getUserInfo(jwToken);
-    // }, []);
-
-    // const getUserInfo = (newToken) => {
-    //     const authAxios = axios.create({
-    //         headers: {
-    //             Authorization: `Bearer ${newToken}`
-    //         }
-    //     });
-    //     authAxios.get('/api/auth/user')
-    //         .then(res => {
-    //             console.log(res);
-    //             setUserInfo({
-    //                 ...userInfo,
-    //                 username: res.data[0].username,
-    //                 email: res.data[0].email,
-    //                 firstName: res.data[1].first_name,
-    //                 lastName: res.data[1].last_name,
-    //                 street: res.data[1].street,
-    //                 city: res.data[1].city,
-    //                 state: res.data[1].state,
-    //                 postalCode: res.data[1].postal_code,
-    //                 country: res.data[1].country
-    //             });
-    //             setNewUserInfo({
-    //                 ...newUserInfo,
-    //                 newUsername: res.data[0].username,
-    //                 newEmail: res.data[0].email,
-    //                 newFirstName: res.data[1].first_name,
-    //                 newLastName: res.data[1].last_name,
-    //                 newStreet: res.data[1].street,
-    //                 newCity: res.data[1].city,
-    //                 newState: res.data[1].state,
-    //                 newPostalCode: res.data[1].postal_code,
-    //                 newCountry: res.data[1].country
-    //             });
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // };
-
     const handleUpdateUserSubmit = () => {
         console.log('submit');
         const userUpdateInfo = {
@@ -174,6 +133,33 @@ const Profile = (props) => {
                     handleClose();
                 });
         };
+
+        setModalType('');
+    };
+
+    const handleProfilePicUpdate = () => {
+        const formData = new FormData();
+        formData.append('display_picture', newProfileImage[0]);
+        // console.log(newProfileImage[0]);
+        // console.log(formData.get('display_picture'));
+        const jwToken = auth.getToken();
+        const authAxios = axios.create({
+            headers: {
+                Authorization: `Bearer ${jwToken}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        authAxios.post('/api/auth/update-user-information', formData)
+            .then(res => {
+                console.log(res);
+                const jwToken = auth.getToken();
+                getUserInfo(jwToken);
+            })
+            .catch(err => console.log(err))
+            .then(() => {
+                handleClose();
+            });
     };
 
     const validateInputs = () => {
@@ -223,20 +209,23 @@ const Profile = (props) => {
                 <Box my={3}>
                     <Typography variant='h2'>Profile</Typography>
                 </Box>
-                <ProfileInfoDisplay userInfo={userInfo} />
+                <ProfileInfoDisplay userInfo={userInfo} handleOpen={handleOpen} />
                 <Grid container spacing={0}>
                     <Grid item xs={12}>
-                        <Button className={classes.editButton} variant='contained' onClick={handleOpen}>Edit</Button>
+                        <Button className={classes.editButton} variant='contained' onClick={() => handleOpen('info')}>Edit</Button>
                     </Grid>
                 </Grid>
                 <ProfileEditModal
                     open={open}
+                    modalType={modalType}
                     handleClose={handleClose}
                     handleUpdateUserSubmit={handleUpdateUserSubmit}
                     newUserInfo={newUserInfo}
                     setNewUserInfo={setNewUserInfo}
                     usernameHelper={usernameHelper}
                     emailHelper={emailHelper}
+                    setNewProfileImage={setNewProfileImage}
+                    handleProfilePicUpdate={handleProfilePicUpdate}
                 />
             </Container>
         </div>

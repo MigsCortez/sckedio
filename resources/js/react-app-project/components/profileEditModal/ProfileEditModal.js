@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -246,231 +247,266 @@ const ProfileEditModal = (props) => {
         newUserInfo,
         handleUpdateUserSubmit,
         usernameHelper,
-        emailHelper
+        emailHelper,
+        modalType,
+        setNewProfileImage,
+        handleProfilePicUpdate
     } = props;
 
     return (
         <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
-            <DialogContent>
-                {/* <DialogContentText>
+            {modalType === 'picture' &&
+                <div>
+                    <DialogTitle id="form-dialog-title">Edit Profile Picture</DialogTitle>
+                    <DialogContent>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <DropzoneArea
+                                    filesLimit={1}
+                                    onChange={files => setNewProfileImage(files)}
+                                />
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="secondary">
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                handleProfilePicUpdate();
+                            }}
+                            color="primary"
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </div>
+            }
+            {modalType === 'info' &&
+                <div>
+                    <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+                    <DialogContent>
+                        {/* <DialogContentText>
                     Edit profile information
                 </DialogContentText> */}
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="first-name"
-                            label="First Name"
-                            variant='outlined'
-                            type="text"
-                            value={newFirstName ? newFirstName : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newFirstName: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="last-name"
-                            label="Last Name"
-                            variant='outlined'
-                            type="text"
-                            value={newLastName ? newLastName : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newLastName: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            disabled
-                            id="username"
-                            label="Username"
-                            variant='outlined'
-                            type="text"
-                            value={newUsername}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newUsername: event.target.value
-                                }
-                            )}
-                            error={usernameHelper === '' ? false : true}
-                            helperText={usernameHelper}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            // disabled
-                            id="email"
-                            label="Email"
-                            variant='outlined'
-                            type="email"
-                            value={newEmail}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newEmail: event.target.value
-                                }
-                            )}
-                            error={emailHelper === '' ? false : true}
-                            helperText={emailHelper}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            id="street-address"
-                            label="Street Address"
-                            variant='outlined'
-                            type="text"
-                            value={newStreet ? newStreet : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newStreet: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="city-address"
-                            label="City"
-                            variant='outlined'
-                            type="text"
-                            value={newCity ? newCity : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newCity: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={2}>
-                        <TextField
-                            select
-                            id="state-address"
-                            label="State"
-                            variant='outlined'
-                            type="text"
-                            value={newState ? newState : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newState: event.target.value
-                                }
-                            )}
-                            fullWidth
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="first-name"
+                                    label="First Name"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newFirstName ? newFirstName : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newFirstName: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="last-name"
+                                    label="Last Name"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newLastName ? newLastName : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newLastName: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    disabled
+                                    id="username"
+                                    label="Username"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newUsername}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newUsername: event.target.value
+                                        }
+                                    )}
+                                    error={usernameHelper === '' ? false : true}
+                                    helperText={usernameHelper}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    // disabled
+                                    id="email"
+                                    label="Email"
+                                    variant='outlined'
+                                    type="email"
+                                    value={newEmail}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newEmail: event.target.value
+                                        }
+                                    )}
+                                    error={emailHelper === '' ? false : true}
+                                    helperText={emailHelper}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    id="street-address"
+                                    label="Street Address"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newStreet ? newStreet : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newStreet: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="city-address"
+                                    label="City"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newCity ? newCity : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newCity: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={2}>
+                                <TextField
+                                    select
+                                    id="state-address"
+                                    label="State"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newState ? newState : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newState: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                >
+                                    {states.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    id="postal-code-address"
+                                    label="Postal Code"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newPostalCode ? newPostalCode : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newPostalCode: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    id="country-address"
+                                    label="Country"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newCountry ? newCountry : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newCountry: event.target.value
+                                        }
+                                    )}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={<Checkbox
+                                            checked={true}
+                                            // onChange={} 
+                                            name='buyer'
+                                            color='primary'
+                                        />}
+                                        label='Buyer'
+                                        disabled
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox
+                                            checked={newDesigner}
+                                            onChange={event => setNewUserInfo(
+                                                {
+                                                    ...newUserInfo,
+                                                    newDesigner: event.target.checked
+                                                }
+                                            )}
+                                            name='designer'
+                                            color='primary'
+                                        />}
+                                        label='Designer'
+                                    />
+                                    <FormControlLabel
+                                        control={<Checkbox
+                                            checked={newManufacturer}
+                                            onChange={event => setNewUserInfo(
+                                                {
+                                                    ...newUserInfo,
+                                                    newManufacturer: event.target.checked
+                                                }
+                                            )}
+                                            name='manufacturer'
+                                            color='primary'
+                                        />}
+                                        label='Manufacturer'
+                                    />
+                                </FormGroup>
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="secondary">
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                handleUpdateUserSubmit();
+                            }}
+                            color="primary"
                         >
-                            {states.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <TextField
-                            id="postal-code-address"
-                            label="Postal Code"
-                            variant='outlined'
-                            type="text"
-                            value={newPostalCode ? newPostalCode : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newPostalCode: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <TextField
-                            id="country-address"
-                            label="Country"
-                            variant='outlined'
-                            type="text"
-                            value={newCountry ? newCountry : ''}
-                            onChange={event => setNewUserInfo(
-                                {
-                                    ...newUserInfo,
-                                    newCountry: event.target.value
-                                }
-                            )}
-                            fullWidth
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <FormGroup row>
-                            <FormControlLabel 
-                                control={<Checkbox 
-                                    checked={true} 
-                                    // onChange={} 
-                                    name='buyer' 
-                                    color='primary'
-                                    />}
-                                label='Buyer'
-                                disabled
-                            />
-                            <FormControlLabel 
-                                control={<Checkbox 
-                                    checked={newDesigner} 
-                                    onChange={event => setNewUserInfo(
-                                        {
-                                            ...newUserInfo,
-                                            newDesigner: event.target.checked
-                                        }
-                                    )} 
-                                    name='designer' 
-                                    color='primary'
-                                    />}
-                                label='Designer'
-                            />
-                            <FormControlLabel 
-                                control={<Checkbox 
-                                    checked={newManufacturer} 
-                                    onChange={event => setNewUserInfo(
-                                        {
-                                            ...newUserInfo,
-                                            newManufacturer: event.target.checked
-                                        }
-                                    )} 
-                                    name='manufacturer' 
-                                    color='primary'
-                                    />}
-                                label='Manufacturer'
-                            />
-                        </FormGroup>
-                    </Grid>
-                </Grid>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClose} color="secondary">
-                    Cancel
-              </Button>
-                <Button
-                    onClick={() => {
-                        handleUpdateUserSubmit();
-                    }}
-                    color="primary"
-                >
-                    Submit
-              </Button>
-            </DialogActions>
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </div>
+            }
         </Dialog>
     )
 

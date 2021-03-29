@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Container, Grid, TextField, Typography } from '@material-ui/core';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -25,19 +26,25 @@ const FeedbackForm = () => {
 
     const handleSendForm = () => {
         const formObj = {
-            formName: formName,
-            formEmail: formEmail,
-            formMessage: formMessage
+            name: formName,
+            email: formEmail,
+            message: formMessage
         };
 
         const isValid = validateInputs();
 
         if (isValid) {
             console.log(formObj);
-            setFormButtonText('Success!');
-            setFormName('');
-            setFormEmail('');
-            setFormMessage('');
+            axios.post('/api/feedback/create')
+                .then(res => {
+                    console.log(res);
+                    setFormButtonText('Success!');
+                    setFormName('');
+                    setFormEmail('');
+                    setFormMessage('');
+                })
+                .catch(err => console.log(err));
+
         }
 
     };
@@ -125,7 +132,7 @@ const FeedbackForm = () => {
                     onClick={handleSendForm}
                 >
                     {formButtonText}
-                    </Button>
+                </Button>
             </Grid>
         </Container>
     );

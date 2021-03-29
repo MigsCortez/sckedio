@@ -32,7 +32,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'display_picture.*' => 'nullable|file|image|mimes:jpeg,jpg,png,gif|max:204800',
+            'display_picture' => 'image|mimes:jpeg,jpg,png,gif|nullable|max:204800',
             'username' => 'nullable|string',
             'email' => 'nullable|string',
             'first_name' => 'nullable|string',

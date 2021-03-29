@@ -11,6 +11,7 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Designer\Design;
 use App\Models\BuyerQueue;
+use App\Models\DisplayPicture;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -55,6 +56,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function activeDisplayPicture()
+    {
+        return $this->hasMany(DisplayPicture::class, 'user_id')->where('is_active', 1);
+    }
+
+    public function displayPicture()
+    {
+        return $this->hasMany(DisplayPicture::class, 'user_id');
+    }
+
     public function user_information()
     {
         return $this->hasOne(UserInformation::class);
@@ -74,9 +85,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(BuyerQueue::class, 'buyer_id');
     }
-    
-    // public function getRoleNamesAttribute()
-    // {
-    //     return $this->roles->pluck('name');
-    // }
 }

@@ -15,20 +15,50 @@ const useStyles = makeStyles((theme) => ({
     bold: {
         fontWeight: 500
     },
-    profileImage: {
-        maxWidth: '100%',
+    imageContainer: {
+        cursor: 'pointer',
+        position: 'relative',
+        '&:hover': {
+            '& img': {
+                opacity: .8
+            },
+            '& div': {
+                opacity: 1
+            }
+        }
+    },
+    marginTop: {
         [theme.breakpoints.up('sm')]: {
             marginBottom: theme.spacing(2)
         }
     },
+    middleImage: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
+        textAlign: 'center',
+        opacity: 0
+    },
+    profileImage: {
+        maxWidth: '100%',
+        
+    },
     root: {
         flexGrow: 1
+    },
+    textImage: {
+        backgroundColor: 'grey',
+        color: 'white',
+        fontSize: 16,
+        padding: '6px 12px'
     }
 
 }));
 
 const ProfileInfoDisplay = (props) => {
     const classes = useStyles();
+    const { handleOpen } = props;
     const {
         username,
         firstName,
@@ -64,7 +94,12 @@ const ProfileInfoDisplay = (props) => {
             {isMobile ? (
                 <Grid container spacing={1}>
                     <Grid item xs={6}>
-                        <img className={classes.profileImage} src={profilePhoto} />
+                        <div className={classes.imageContainer} onClick={() => handleOpen('picture')}>
+                            <img className={classes.profileImage} src={profilePhoto} />
+                            <div className={classes.middleImage}>
+                                <div className={classes.textImage}>Edit</div>
+                            </div>
+                        </div>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant='h4' gutterBottom>
@@ -123,62 +158,20 @@ const ProfileInfoDisplay = (props) => {
                             {country}
                         </Typography>
                     </Grid>
-                    {/* <Grid container item xs={12}>
-                        <Grid item xs={4} sm={3}>
-                            <Typography>
-                                Username:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8} md={9}>
-                            <Typography>
-                                {username}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={4} sm={3}>
-                            <Typography>
-                                Email:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8} md={9}>
-                            <Typography>
-                                {email}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={4} sm={3}>
-                            <Typography>
-                                Address:
-                                    </Typography>
-                        </Grid>
-                        <Grid item xs={8} md={9}>
-                            <Typography>
-                                {street}<br />{city}, {state}<br />{postalCode}
-                            </Typography>
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={4} sm={3}>
-                            <Typography>
-                                Country:
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={8} md={9}>
-                            <Typography>
-                                {country}
-                            </Typography>
-                        </Grid>
-                    </Grid> */}
                 </Grid>
             ) : (
                 <Grid container spacing={4}>
                     <Grid container item xs={4}>
                         <Grid item xs={12}>
-                            <img className={classes.profileImage} src={profilePhoto} />
+                            <div className={classes.imageContainer} onClick={() => handleOpen('picture')}>
+                                <img className={classes.profileImage} src={profilePhoto} onClick={() => handleOpen('picture')} />
+                                <div className={classes.middleImage}>
+                                    <div className={classes.textImage}>Edit</div>
+                                </div>
+                            </div>
                         </Grid>
                         <Grid item xs={12}>
+                            <div className={classes.marginTop}></div>
                             <Typography variant='h6' color='textSecondary'>ACCOUNT TYPE</Typography>
                             <Divider />
                         </Grid>
