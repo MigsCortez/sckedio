@@ -11,6 +11,7 @@ import GetStartedForm from '../../components/getStartedForm/GetStartedForm';
 import auth from '../../auth';
 import axios from 'axios';
 import backgroundImage from '../../images/pexels-gratisography-2255.jpg';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const GetStarted = (props) => {
     const [ideaName, setIdeaName] = React.useState('');
@@ -40,7 +41,7 @@ const GetStarted = (props) => {
         .catch(err=>console.log(err));
     }, []);
 
-    const styles = {
+    const useStyles = makeStyles((theme) => ({
         topSectionBackground: {
             height: 500,
             backgroundImage: `url(${backgroundImage})`,
@@ -64,8 +65,13 @@ const GetStarted = (props) => {
         subtitle: {
             color: 'f7f7f2',
             backgroundColor: 'rgba(247,247,242, 0.40)',
+        },
+        box: {
+            [theme.breakpoints.down('xs')]: {
+                margin: theme.spacing(1),
+            },
         }
-    }
+    }))
 
     const handleSubmit = () => {
         const formData = new FormData();
@@ -107,7 +113,7 @@ const GetStarted = (props) => {
                 console.log(err);
             });
     };
-
+    const classes = useStyles();
     return (
         <div>
             <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
@@ -116,15 +122,15 @@ const GetStarted = (props) => {
                 <Grid container spacing={0} direction="column" >{/*All page content */}
 
                     {/*Top section */}
-                    <Grid item style={styles.topSectionBackground}>
+                    <Grid item className={classes.topSectionBackground}>
                         <Box m={4} alignItems='center' justifyContent='center'>
                             <Grid item container xs={12} >
                                 <Grid item xs={false} md={3}>
 
                                 </Grid>
                                 <Grid item xs={12} md={6}>
-                                    <Typography variant='h2' style={styles.title}>Share your idea with the world</Typography>
-                                    <Typography variant='h5'style={styles.subtitle} >Follow the quick steps below to get your idea onto Sckedio.</Typography>
+                                    <Typography variant='h2' className={classes.title}>Share your idea with the world</Typography>
+                                    <Typography variant='h5'className={classes.subtitle} >Follow the quick steps below to get your idea onto Sckedio.</Typography>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -140,8 +146,8 @@ const GetStarted = (props) => {
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={8}>
-                            <Box m={10}>
-                                <Grid item container>
+                            <Box m={10} className={classes.box} align='center'>
+                                <Grid item container xs={12}>
                                     {
                                         props.currentRoleType === 'designer' ?
 

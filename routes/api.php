@@ -12,6 +12,7 @@ use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthTokenController;
 use App\Http\Controllers\SubscriberController;
+use App\Http\Controllers\FeedbackController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -28,6 +29,12 @@ Route::group([
 ], function() {
     Route::post('create', [SubscriberController::class, 'create']);
     Route::delete('delete/{email}', [SubscriberController::class, 'delete']);
+});
+
+Route::group([
+    'prefix' => 'feedback'
+], function() {
+    Route::post('create', [FeedbackController::class, 'create']);
 });
 
 Route::group([

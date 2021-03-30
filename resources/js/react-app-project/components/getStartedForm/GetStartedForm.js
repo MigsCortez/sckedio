@@ -15,13 +15,20 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { DropzoneArea } from 'material-ui-dropzone';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         '& .MuiTextField-root': {
             margin: theme.spacing(1),
-            width: '50ch'
+            width: '50ch',
+            [theme.breakpoints.down('sm')]: {
+                width: '45ch',
+            },
+            [theme.breakpoints.down('xs')]: {
+                width: '37ch',
+            },
         }
     },
     button: {
@@ -30,6 +37,14 @@ const useStyles = makeStyles((theme) => ({
     instructions: {
         marginTop: theme.spacing(1),
         marginBottom: theme.spacing(1),
+    },
+
+    stepper: {
+        orientation: 'horizontal',
+        [theme.breakpoints.down('xs')]: {
+            orientation: 'vertical',
+            connectors: 'false',
+        },
     },
 }));
 
@@ -113,13 +128,13 @@ function getStepContent(step, props) {
                             <div>
                                 <FormControl component="fieldset" >
                                     <FormLabel component="legend">Category</FormLabel>
-                                    <RadioGroup 
-                                    aria-label="category" 
-                                    name="category1" 
-                                    value={productCategory} 
-                                    onChange={event => setProductCategory(event.target.value)}
+                                    <RadioGroup
+                                        aria-label="category"
+                                        name="category1"
+                                        value={productCategory}
+                                        onChange={event => setProductCategory(event.target.value)}
                                     >
-                                        {categoriesArray.map(category=>{
+                                        {categoriesArray.map(category => {
                                             return <FormControlLabel key={category.id} value={category.id.toString()} control={<Radio />} label={category.category} />
                                         })}
                                     </RadioGroup>
@@ -139,13 +154,13 @@ function getStepContent(step, props) {
                             <div>
                                 <FormControl component="fieldset">
                                     <FormLabel component="legend">What is included in your upload?</FormLabel>
-                                    <RadioGroup 
-                                        aria-label="included" 
-                                        name="included1" 
-                                        value={ideaType} 
+                                    <RadioGroup
+                                        aria-label="included"
+                                        name="included1"
+                                        value={ideaType}
                                         onChange={event => setIdeaType(event.target.value)}
                                     >
-                                        {ideaTypesArray.map(ideaType=>{
+                                        {ideaTypesArray.map(ideaType => {
                                             return <FormControlLabel key={ideaType.id} value={ideaType.id.toString()} control={<Radio />} label={ideaType.idea_type} />
                                         })}
                                     </RadioGroup>
@@ -158,7 +173,7 @@ function getStepContent(step, props) {
                                         <Box>
                                             <Typography border={5}>Upload any publicly available files</Typography>
                                         </Box>
-                                        {/* <input 
+                                        {/* <input
                                             type='file'
                                             id='public-files'
                                             name='public-files'
@@ -232,6 +247,9 @@ function getStepContent(step, props) {
 }
 
 const GetStartedForm = (props) => {
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
     const { handleSubmit } = props;
     const classes = useStyles();
     const [activeStep, setActiveStep] = React.useState(0);
@@ -254,7 +272,7 @@ const GetStartedForm = (props) => {
             newSkipped.delete(activeStep);
         }
 
-        if (activeStep===steps.length-1) {
+        if (activeStep === steps.length - 1) {
             handleSubmit();
         }
 
@@ -287,7 +305,7 @@ const GetStartedForm = (props) => {
 
     return (
         <div className={classes.root}>
-            <Stepper activeStep={activeStep}>
+            <Stepper activeStep={activeStep}  orientation={ isMobile ? 'vertical' : 'horizontal'} >
                 {steps.map((label, index) => {
                     const stepProps = {};
                     const labelProps = {};
@@ -315,36 +333,36 @@ const GetStartedForm = (props) => {
                         </Button>
                     </div>
                 ) : (
+                    <div>
+                        {/* <Typography className={classes.instructions}> */}
+                        {getStepContent(activeStep, props)}
+                        {/* </Typography> */}
                         <div>
-                            {/* <Typography className={classes.instructions}> */}
-                            {getStepContent(activeStep, props)}
-                            {/* </Typography> */}
-                            <div>
-                                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                                    Back
+                            <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
+                                Back
                                 </Button>
-                                {isStepOptional(activeStep) && (
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleSkip}
-                                        className={classes.button}
-                                    >
-                                        Skip
-                                    </Button>
-                                )}
-
+                            {isStepOptional(activeStep) && (
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    onClick={handleNext}
+                                    onClick={handleSkip}
                                     className={classes.button}
                                 >
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                    Skip
                                 </Button>
-                            </div>
+                            )}
+
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={handleNext}
+                                className={classes.button}
+                            >
+                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            </Button>
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
         </div>
     );
