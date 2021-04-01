@@ -1,9 +1,12 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
+
 import Container from '@material-ui/core/Container';
-import CreateAccountForm from '../../components/createAccountForm/CreateAccountForm';
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
-import { useHistory } from "react-router-dom";
+
+import CreateAccountForm from '../../components/createAccountForm/CreateAccountForm';
+
 import axios from 'axios';
 
 function Alert(props) {
@@ -43,15 +46,12 @@ const CreateAccount = () => {
             password_confirmation: signUpPasswordCon
         };
 
-        console.log(userData);
-
         const isValid = validateInputs();
 
-        console.log('is valid: ' + isValid);
         if (isValid) {
             axios.post('/api/auth/signup', userData)
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     handleSnackbarOpen();
                     setTimeout(()=>{
                         history.push({

@@ -1,8 +1,11 @@
 import React from 'react';
-import Container from '@material-ui/core/Container';
-import LoginForm from '../../components/loginForm/loginForm';
-import auth from '../../auth';
 import { useHistory } from "react-router-dom";
+
+import Container from '@material-ui/core/Container';
+
+import LoginForm from '../../components/loginForm/loginForm';
+
+import auth from '../../auth';
 import axios from 'axios';
 
 const Login = (props) => {
@@ -20,21 +23,16 @@ const Login = (props) => {
             remember_me: true
         };
 
-        console.log(loginData);
-
         const isValid = validateInputs();
 
         if (isValid) {
             axios.post('/api/auth/login', loginData)
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     // JWT token
                     const jwToken = res.data.access_token;
                     // seconds to JWT expire
                     const secondsToExpire = res.data.expires_in;
-                    
-                    // not secure, only for testing
-                    // localStorage.setItem('token', jwToken);
 
                     // for deployment JWT logic
                     auth.setToken(jwToken);
@@ -46,9 +44,6 @@ const Login = (props) => {
                         props.getUserInfo(jwToken);
                         history.push({
                             pathname: '/',
-                            // state: {
-                            //     jwToken: jwToken
-                            // }
                         });
                     });
 

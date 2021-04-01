@@ -1,63 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import Footer from '../../components/footer/Footer';
 import Infographic from '../../components/infographic/Infographic';
 import NavBar from '../../components/navBar/NavBar';
-import AddIcon from '@material-ui/icons/Add';
-import Box from '@material-ui/core/Box';
-import Fade from '@material-ui/core/Fade';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Button from '@material-ui/core/Button';
+
 import axios from 'axios';
-import VisibilitySensor from 'react-visibility-sensor';
-import { useHistory } from "react-router-dom";
-import artisanImage from '../../../../assets/artisan2.jpg';
+import notebookImage from '../../../../assets/notebook.jpg'
 import stayTunedImage from '../../images/pexels-andrea-piacquadio-842554.jpg'
-import workImage from '../../../../assets/work.jpg';
-import whiteboard from '../../../../assets/whiteboard4.jpg'
-import lightbulbImage from '../../../../assets/lightbulb2.jpg'
-
-
 
 const useStyles = makeStyles((theme) => ({
+    blackTextBackground: {
+        backgroundColor: 'rgba(0,0,0, 0.30)',
+        paddingLeft: 5,
+        paddingRight: 5
+    },
     circleGrid: {
         fontSize: 80,
         [theme.breakpoints.down('xs')]: {
             fontSize: 40,
-        },
-    },
-    stepGridIcon: {
-        [theme.breakpoints.down('xs')]: {
-            width: 50,
-            height: 50
-        },
-    },
-    root: {
-        marginTop: theme.spacing(3)
-    },
-    stepGrid: {
-        marginTop: 100,
-        marginBottom: 100,
-    },
-
-    topSectionBackground: {
-        height: 450,
-        width: '100%',
-        backgroundImage: `url(${lightbulbImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'top-center',
-        backgroundRepeat: 'no-repeat',
-        width: `calc(100vw + 40px)`,
-        padding: 0,
-        color: 'white'
-    },
-    stepGridText: {
-        [theme.breakpoints.down('xs')]: {
-            fontSize: 18,
         },
     },
     forms: {
@@ -73,17 +41,47 @@ const useStyles = makeStyles((theme) => ({
             fontSize: 16,
         },
     },
+    root: {
+        marginTop: theme.spacing(3)
+    },
+    stepGrid: {
+        marginTop: 100,
+        marginBottom: 100,
+    },
+    stepGridIcon: {
+        [theme.breakpoints.down('xs')]: {
+            width: 50,
+            height: 50
+        },
+    },
+    stepGridText: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 18,
+        },
+    },
     subscribe: {
         marginBottom: theme.spacing(2),
         [theme.breakpoints.down('xs')]: {
             marginBottom: theme.spacing(4),
         },
-    }
-}))
+    },
+    topSectionBackground: {
+        height: 'calc(100vh - 66px)',
+        backgroundImage: `url(${notebookImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'top-center',
+        backgroundRepeat: 'no-repeat',
+        padding: 0,
+        color: 'white'
+    },
+}));
 
 const Home = (props) => {
     const classes = useStyles();
     let history = useHistory();
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('xs'), { noSsr: true });
 
     const [formName, setFormName] = React.useState('');
     const [formEmail, setFormEmail] = React.useState('');
@@ -102,7 +100,7 @@ const Home = (props) => {
         if (isValid) {
             axios.post('/api/subscriber/create', formObj)
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                 })
                 .catch(err => console.log(err))
                 .then(() => {
@@ -142,40 +140,60 @@ const Home = (props) => {
     return (
         <div>
             <NavBar loggedIn={props.loggedIn} handleLogout={props.handleLogout} roles={props.roles} currentRoleType={props.currentRoleType} handleRoleType={props.handleRoleType} />
-            {/* <h1>Home Page</h1> */}
             <div className={classes.root}>
                 <Grid container justify='center'>
                     <Grid item container xs={12} justify='center' spacing={3}>
                         <Grid item container xs={12} justify='center' spacing={3} className={classes.topSectionBackground}>
 
                             <Grid item xs={12}>
-                                <Typography variant='h2' align='center'>The Marketplace for Ideas</Typography>
+                                <Typography variant='h2' align='center'><span className={classes.blackTextBackground}>The Marketplace for Ideas</span></Typography>
                             </Grid>
 
                             <Grid item container xs={12} sm={10} md={6} spacing={3}>
-                                <Typography variant='h5' align='center'>Sckedio connects people who have an idea for a product with people who want to build and buy their idea</Typography>
+                                <Typography variant='h5' align='center'><span className={classes.blackTextBackground}>Sckedio connects people who have an idea for a product with people who want to build and buy their idea</span></Typography>
 
-                                <Grid item container xs={12} justify='space-between' >
-                                    <Grid item>
-
-                                        <Button variant='contained' color='primary' onClick={() => history.push('/get-started')} >Submit an Idea</Button>
+                                {isMobile ?
+                                    <Grid item container xs={12}>
+                                        <Grid item xs={12}>
+                                            <Box align="center">
+                                                <Button variant='contained' color='primary' onClick={() => history.push('/sell')} >Submit an Idea</Button>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Box align="center">
+                                                <Button variant='contained' color='primary' onClick={() => history.push('/build')}>Build</Button>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Box align="center">
+                                                <Button variant='contained' color='primary' onClick={() => history.push('/buy')}>Buy New Products</Button>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item>
+                                    :
+                                    <Grid item container xs={12} justify='space-between' >
+                                        <Grid item>
 
-                                        <Button variant='contained' color='primary' onClick={() => history.push('/build')}>Build</Button>
-                                    </Grid>
-                                    <Grid item>
+                                            <Button variant='contained' color='primary' onClick={() => history.push('/sell')} >Submit an Idea</Button>
+                                        </Grid>
+                                        <Grid item>
 
-                                        <Button variant='contained' color='primary' onClick={() => history.push('/buy')}>Buy New Products</Button>
+                                            <Button variant='contained' color='primary' onClick={() => history.push('/build')}>Build</Button>
+                                        </Grid>
+                                        <Grid item>
+
+                                            <Button variant='contained' color='primary' onClick={() => history.push('/buy')}>Buy New Products</Button>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                }
+
                             </Grid>
                         </Grid>
 
                         <Grid item xs={12}>
                             <Infographic />
-
                         </Grid>
+
                         <Grid item container xs={12} justify='space-between' spacing={1}>
                             <Grid item xs={12} sm={6} md={5}>
                                 <img src={stayTunedImage} width='100%' />

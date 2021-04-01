@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+// import { useLocation } from "react-router-dom";
+
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+
 import NavBar from '../../components/navBar/NavBar';
 import ProfileEditModal from '../../components/profileEditModal/ProfileEditModal';
 import ProfileInfoDisplay from '../../components/ProfileInfoDisplay/ProfileInfoDisplay';
-import { useLocation } from "react-router-dom";
+
 import auth from '../../auth';
 import axios from 'axios';
 
@@ -21,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Profile = (props) => {
-    const location = useLocation();
+    // const location = useLocation();
     const classes = useStyles();
 
     const { userInfo, getUserInfo } = props;
@@ -42,20 +45,6 @@ const Profile = (props) => {
     const [emailHelper, setEmailHelper] = React.useState('');
     const [newProfileImage, setNewProfileImage] = React.useState({});
     const [modalType, setModalType] = React.useState('');
-
-    // const [userInfo, setUserInfo] = React.useState({
-    //     username: null,
-    //     firstName: null,
-    //     lastName: null,
-    //     email: null,
-    //     street: null,
-    //     city: null,
-    //     state: null,
-    //     postalCode: null,
-    //     country: null,
-    //     profilePhoto: 'https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-picture-default-avatar-photo-placeholder-profile-picture-eps-file-easy-to-edit-125707135.jpg'
-    // });
-
     const [newUserInfo, setNewUserInfo] = React.useState({
         newUsername: null,
         newFirstName: null,
@@ -89,7 +78,6 @@ const Profile = (props) => {
     }, [userInfo]);
 
     const handleUpdateUserSubmit = () => {
-        console.log('submit');
         const userUpdateInfo = {
             first_name: newUserInfo.newFirstName,
             last_name: newUserInfo.newLastName,
@@ -106,10 +94,8 @@ const Profile = (props) => {
         };
 
         const isValid = validateInputs();
-        console.log('is valid: ' + isValid);
 
         if (isValid) {
-            // const jwToken = localStorage.getItem('token');
             const jwToken = auth.getToken();
             const authAxios = axios.create({
                 headers: {
@@ -117,12 +103,9 @@ const Profile = (props) => {
                 }
             });
 
-            console.log(userUpdateInfo);
             authAxios.post('/api/auth/update-user-information', userUpdateInfo)
-                // authAxios.post('/api/auth/create-user-information', userUpdateInfo)
                 .then(res => {
-                    console.log(res);
-                    // const jwToken = localStorage.getItem('token');
+                    // console.log(res);
                     const jwToken = auth.getToken();
                     getUserInfo(jwToken);
                 })
@@ -140,8 +123,6 @@ const Profile = (props) => {
     const handleProfilePicUpdate = () => {
         const formData = new FormData();
         formData.append('display_picture', newProfileImage[0]);
-        // console.log(newProfileImage[0]);
-        // console.log(formData.get('display_picture'));
         const jwToken = auth.getToken();
         const authAxios = axios.create({
             headers: {
@@ -152,7 +133,7 @@ const Profile = (props) => {
 
         authAxios.post('/api/auth/update-user-information', formData)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 const jwToken = auth.getToken();
                 getUserInfo(jwToken);
             })

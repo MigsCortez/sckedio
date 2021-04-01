@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
+
 import NavBar from '../../components/navBar/NavBar';
-import fakeProducts from '../buy/fakeProducts';
 import ProductInfoDisplay from '../../components/productInfoDIsplay/ProductInfoDisplay';
+
 import auth from '../../auth';
 import axios from 'axios';
 
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const Product = (props) => {
     const classes = useStyles();
     const { id } = useParams();
-    console.log(props)
+
     const [product, setProduct] = React.useState();
     const [loading, setLoading] = React.useState(true);
     const [currentImage, setCurrentImage] = React.useState();
@@ -33,8 +35,7 @@ const Product = (props) => {
             if (design.category_id === catIndex.id) {
                 newDesign.category_id = catIndex.category;
             }
-        })
-        // console.log(newDesign);
+        });
         return newDesign;
     };
 
@@ -50,10 +51,9 @@ const Product = (props) => {
                 });
 
                 if (props.loggedIn) {
-                    console.log('role type:' + props.currentRoleType);
                     authAxios.get('/api/designer/auth/show/' + id)
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProduct = catConvert(res.data.design, resOne.data);
                             setProduct(convertedProduct);
                             setCurrentImage(res.data.design.images[0]);
@@ -65,7 +65,6 @@ const Product = (props) => {
                             });
 
                             if (res.data.design.private_images) {
-                                // console.log(res.data.design.private_images);
                                 res.data.design.private_images.forEach((individualImage) => {
                                     const newArrEntry = {
                                         src: individualImage,
@@ -85,7 +84,7 @@ const Product = (props) => {
 
                     axios.get('/api/designer/show-design/' + id)
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProduct = catConvert(res.data.design[0], resOne.data);
                             setProduct(convertedProduct);
                             setCurrentImage(res.data.design[0].images[0]);
@@ -120,7 +119,7 @@ const Product = (props) => {
                 if (props.loggedIn) {
                     authAxios.get('/api/designer/auth/show/' + id)
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProduct = catConvert(res.data.design, resOne.data);
                             setProduct(convertedProduct);
                             setCurrentImage(res.data.design.images[0]);
@@ -132,7 +131,6 @@ const Product = (props) => {
                             });
 
                             if (res.data.design.private_images) {
-                                // console.log(res.data.design.private_images);
                                 res.data.design.private_images.forEach((individualImage) => {
                                     const newArrEntry = {
                                         src: individualImage,
@@ -143,13 +141,12 @@ const Product = (props) => {
                             }
 
                             setImageArr(newImageArr);
-                            // setLoading(false);
                         })
                         .catch(err => console.log(err));
                 } else {
                     axios.get('/api/designer/show-design/' + id)
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProduct = catConvert(res.data.design[0], resOne.data);
                             setProduct(convertedProduct);
                             setCurrentImage(res.data.design[0].images[0]);
@@ -160,7 +157,6 @@ const Product = (props) => {
                                 }
                             });
                             setImageArr(newImageArr);
-                            // setLoading(false);
                         })
                         .catch(err => console.log(err));
                 }
@@ -187,7 +183,6 @@ const Product = (props) => {
     };
 
     const handleInterest = (designId) => {
-        console.log('interest: ' + designId);
         const jwToken = auth.getToken();
 
         const authAxios = axios.create({
@@ -198,7 +193,7 @@ const Product = (props) => {
 
         authAxios.post('/api/buyer/create/' + designId)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 getDesign();
             })
             .catch(err => {

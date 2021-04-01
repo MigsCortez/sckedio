@@ -2,10 +2,11 @@ import React, { useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+
 import NavBar from '../../components/navBar/NavBar';
 import DesignCard from '../../components/designCard/DesignCard';
-import Typography from '@material-ui/core/Typography';
-import fakeProducts from './fakeProducts';
+
 import auth from '../../auth';
 import axios from 'axios';
 
@@ -18,8 +19,7 @@ const Buy = (props) => {
             if (design.category_id === catIndex.id) {
                 newDesign.category_id = catIndex.category;
             }
-        })
-        // console.log(newDesign);
+        });
         return newDesign;
     };
 
@@ -40,7 +40,7 @@ const Buy = (props) => {
 
                     authAxios.get('/api/designer/auth/list')
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProducts = res.data.designs.map(design => catConvert(design, resOne.data));
                             setProductArray(convertedProducts);
                         })
@@ -76,7 +76,7 @@ const Buy = (props) => {
         
                     authAxios.get('/api/designer/auth/list')
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProducts = res.data.designs.map(design => catConvert(design, resOne.data));
                             setProductArray(convertedProducts);
                         })
@@ -84,7 +84,7 @@ const Buy = (props) => {
                 } else {
                     axios.get('/api/designer/list')
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const convertedProducts = res.data.designs.map(design => catConvert(design, resOne.data));
                             setProductArray(convertedProducts);
                         })
@@ -96,7 +96,6 @@ const Buy = (props) => {
     };
 
     const handleInterest = (designId) => {
-        console.log('interest: ' + designId);
         const jwToken = auth.getToken();
 
         const authAxios = axios.create({
@@ -107,7 +106,7 @@ const Buy = (props) => {
 
         authAxios.post('/api/buyer/create/' + designId)
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 getDesigns();
             })
             .catch(err => {
@@ -123,13 +122,6 @@ const Buy = (props) => {
                     <Typography variant='h2'>Shop</Typography>
                 </Box>
                 <Grid container spacing={3}>
-                    {/* {fakeProducts.map((product, i) => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={i} align='center'>
-                            <DesignCard
-                                product={product}
-                            />
-                        </Grid>
-                    ))} */}
                     {productArray.map((product, i) => (
                         <Grid item xs={12} sm={6} md={4} lg={3} key={i} align='center'>
                             <DesignCard

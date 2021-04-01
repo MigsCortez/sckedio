@@ -15,13 +15,13 @@ const PasswordForgotRequest = () => {
         const isValid = validateInputs();
 
         if (isValid) {
-            console.log('submit');
-            console.log(emailObj);
-            // axios.post('api/guest/forgot-password', emailObj)
-            //     .then(res => {
-            //         console.log(res);
-            //     })
-            //     .catch(err=>console.log(err));
+            // console.log('submit');
+            // console.log(emailObj);
+            axios.post('api/guest/forgot-password', emailObj)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err=>console.log(err));
         }
     };
 

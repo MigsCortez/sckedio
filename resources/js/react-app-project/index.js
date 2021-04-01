@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMuiTheme, makeStyles, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
 import ReactDOM from 'react-dom';
 import App from './App';
 
