@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+
 use App\Http\Requests\Subscriber\CreateRequest;
+use App\Notifications\SubscribeEmailNotification;
 use App\Models\Subscriber;
 
 class SubscriberController extends Controller
@@ -11,18 +14,20 @@ class SubscriberController extends Controller
     public function create(CreateRequest $request) 
     {
         $validData = $request->validated();
-        $subscriber = new Subscriber;
-        $returningSubscriber = $subscriber->onlyTrashed()->where('email', $request->email)->first();
+        $returningSubscriber = Subscriber::onlyTrashed()->where('email', $request->email)->first();
 
         if(!empty($returningSubscriber))
         {
-            $returningSubscriber->restore();
+            $subscriber = $returningSubscriber->restore();
             $message = "Successfully resubscribed!";
             $responseCode = 200;
         }
-        else if(empty($subscriber->where('email', $request->email)->first()))
+        else if(empty(Subscriber::where('email', $request->email)->first()))
         {
-            $subscriber->fill($validData)->save();
+            $subscriber = Subscriber::create([
+                'name' => $request->name,
+                'email' => $request->email
+            ]);
             $message = "Successfully subscribed!";
             $responseCode = 200;
         }
@@ -31,6 +36,13 @@ class SubscriberController extends Controller
             $message = "User is already subscribed";
             $responseCode = 409;
         }
+
+       if(!empty($subscriber))
+       { 
+           $subscription = Notification::send($subscriber, new SubscribeEmailNotification());
+           return $subscription;
+       }
+
         return response()->json([
             'message' => $message
         ], $responseCode);

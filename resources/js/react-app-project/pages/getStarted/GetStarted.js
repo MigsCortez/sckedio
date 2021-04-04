@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import GetStartedForm from '../../components/getStartedForm/GetStartedForm';
+import Instructions from '../../components/instructions/Instructions';
 import auth from '../../auth';
 import axios from 'axios';
 import backgroundImage from '../../images/pexels-gratisography-2255.jpg';
@@ -173,7 +174,11 @@ const GetStarted = (props) => {
                                                 ideaTypesArray={ideaTypesArray}
                                             />
                                             :
+                                            <Grid>
                                             <Typography variant='h3'>Sign in as a designer</Typography>
+                                            <Instructions/>
+                                            </Grid>
+
                                     }
                                 </Grid>
                             </Box>
