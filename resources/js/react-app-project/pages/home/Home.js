@@ -13,7 +13,7 @@ import Infographic from '../../components/infographic/Infographic';
 import NavBar from '../../components/navBar/NavBar';
 
 import axios from 'axios';
-import notebookImage from '../../../../assets/notebook.jpg'
+import starsBG from '../../images/pexels-marc-schulte-2779948.jpeg'
 import stayTunedImage from '../../images/pexels-andrea-piacquadio-842554.jpg'
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
     topSectionBackground: {
         height: 'calc(100vh - 66px)',
-        backgroundImage: `url(${notebookImage})`,
+        backgroundImage: `url(${starsBG})`,
         backgroundSize: 'cover',
         backgroundPosition: 'top-center',
         backgroundRepeat: 'no-repeat',
@@ -150,7 +150,7 @@ const Home = (props) => {
                             </Grid>
 
                             <Grid item container xs={12} sm={10} md={6} spacing={3}>
-                                <Typography variant='h5' align='center'><span className={classes.blackTextBackground}>Sckedio connects people who have an idea for a product with people who want to build and buy their idea</span></Typography>
+                                <Typography variant='h5' align='center'><span className={classes.blackTextBackground}>Sckedio connects people who have an idea for a product with people who want to build and buy their idea.</span></Typography>
 
                                 {isMobile ?
                                     <Grid item container xs={12}>

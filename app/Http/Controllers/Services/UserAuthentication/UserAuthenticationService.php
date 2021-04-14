@@ -34,13 +34,16 @@ class UserAuthenticationService
             'city' => "",
             'street' => "",
             'postal_code' => "",
-            'country' => "" 
+            'country' => "",
+            'bio' => "",
         ]);
 
         $user_information->user()->associate($user);
         $user_information->save();
         
         $user->assignRole('buyer');
+        $user->assignRole('designer');
+        $user->assignRole('manufacturer');
 
         return response()->json([
             'message' => 'Successfully created user!'
