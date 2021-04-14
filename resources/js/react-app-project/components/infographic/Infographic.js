@@ -1,8 +1,10 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import BuildIcon from '@material-ui/icons/Build';
@@ -86,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
     mobileStepTextContainer: {
         display: 'flex',
         alignItems: 'center',
-        // textAlign: 'center'
     },
     numCircle: {
         height: 32,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -72,7 +72,7 @@ const LoginForm = (props) => {
                             </Button>
                         </Grid>
                         <Grid item container xs={12} justify='center'>
-                            <Typography variant='body2'><Link href='/forgot-password' onClick={()=>console.log('clicked')}>Forgot your password?</Link></Typography>
+                            <Typography variant='body2'><Link href='/forgot-password' onClick={() => console.log('clicked')}>Forgot your password?</Link></Typography>
                         </Grid>
                         <Grid item container xs={12} justify='center'>
                             <Typography variant='body2'>First time here? <Link href='/create-account'>Create an account</Link></Typography>

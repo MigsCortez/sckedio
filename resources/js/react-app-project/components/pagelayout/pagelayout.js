@@ -1,15 +1,22 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import FeedbackForm from '../feedbackform/feedbackform';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
 import { useHistory } from "react-router-dom";
 
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography';
 
-const PageLayout = ({ pageData }) => {
+import FeedbackForm from '../feedbackform/feedbackform';
+
+const PageLayout = (props) => {
+    // const pageData = props.pageData;
+    // const loggedIn = props.loggedIn;
+    const {
+        pageData,
+        loggedIn
+    } = props;
     let history = useHistory();
     const theme = useTheme();
     const useStyles = makeStyles((theme) => ({
@@ -70,11 +77,8 @@ const PageLayout = ({ pageData }) => {
             height: 600,
             backgroundImage: `url(${pageData.header.image})`,
             backgroundSize: 'cover',
-            // backgroundPosition: 'top-center',
             backgroundRepeat: 'no-repeat',
             width: `calc(100vw + 40px)`,
-            // width: "100%",
-            // margin: 0,
             padding: 70,
             paddingBottom: 0,
         },
@@ -93,9 +97,18 @@ const PageLayout = ({ pageData }) => {
                     <Grid item xs={12} md={6}>{/*The marketplace for ideas...+Sckedio connects... */}
                         <Typography variant='h2' align='center' className={classes.title}>{pageData.header.title}</Typography>
                         <Typography variant='h5' align='center' className={classes.subtitle}>{pageData.header.subtitle}</Typography>
-                        <Box align="center">
-                            <Button variant="contained" onClick={() => history.push(pageData.header.url)}>{pageData.header.button}</Button>
-                        </Box>
+                        {/* BUTTON FOR BUILD PAGE */}
+                        {pageData.header.title === 'Build with Sckedio' && !loggedIn &&
+                            <Box align="center">
+                                <Button variant="contained" onClick={() => history.push(pageData.header.url)}>{pageData.header.button}</Button>
+                            </Box>
+                        }
+                        {/* BUTTON FOR SELL PAGE */}
+                        {pageData.header.title === 'Sell Your Idea' &&
+                            <Box align="center">
+                                <Button variant="contained" onClick={() => history.push(pageData.header.url)}>{pageData.header.button}</Button>
+                            </Box>
+                        }
                     </Grid>
                 </Grid>
             </Grid>
@@ -117,18 +130,18 @@ const PageLayout = ({ pageData }) => {
                                     <Typography variant='h4' gutterBottom className={classes.sectionTitle}>{section.title}</Typography>
                                     <Typography variant='h6' className={classes.sectionSubtitle}>{section.subtitle}</Typography>
                                     {section.buttons &&
-                                    <Grid item container md={12}>
-                                        <Grid item xs={12} sm={6}>
-                                            <Box align="center">
-                                                <Button variant="contained" className={classes.uploadButton} onClick={() => history.push('/get-started')}>Upload Design</Button>
-                                            </Box>
+                                        <Grid item container md={12}>
+                                            <Grid item xs={12} sm={6}>
+                                                <Box align="center">
+                                                    <Button variant="contained" className={classes.uploadButton} onClick={() => history.push('/get-started')}>Upload Design</Button>
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <Box align="center">
+                                                    <Button variant="contained" className={classes.uploadButton} onClick={() => history.push('/login')}>Login</Button>
+                                                </Box>
+                                            </Grid>
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
-                                            <Box align="center">
-                                                <Button variant="contained" className={classes.uploadButton} onClick={() => history.push('/login')}>Login</Button>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
                                     }
                                 </Grid>
                             </Grid>

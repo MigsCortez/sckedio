@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const useStyles = makeStyles((theme) => ({
     accounts: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     profileImage: {
         maxWidth: '100%',
-        
+
     },
     root: {
         flexGrow: 1

@@ -1,11 +1,10 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+
 import Button from '@material-ui/core/Button';
 import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -13,10 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { DropzoneArea } from 'material-ui-dropzone';
-
-const useStyles = makeStyles((theme) => ({
-
-}));
 
 const states = [
     {
@@ -226,7 +221,6 @@ const states = [
 ];
 
 const ProfileEditModal = (props) => {
-    const classes = useStyles();
     const {
         newUsername,
         newFirstName,
@@ -287,9 +281,6 @@ const ProfileEditModal = (props) => {
                 <div>
                     <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
                     <DialogContent>
-                        {/* <DialogContentText>
-                    Edit profile information
-                </DialogContentText> */}
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -344,7 +335,6 @@ const ProfileEditModal = (props) => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    // disabled
                                     id="email"
                                     label="Email"
                                     variant='outlined'
@@ -453,7 +443,6 @@ const ProfileEditModal = (props) => {
                                     <FormControlLabel
                                         control={<Checkbox
                                             checked={true}
-                                            // onChange={} 
                                             name='buyer'
                                             color='primary'
                                         />}

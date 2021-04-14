@@ -1,22 +1,23 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import AppBar from '@material-ui/core/AppBar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import auth from '../../auth';
-import { withRouter } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import logo from '../../images/sckedio-logo.png';
-import Hidden from '@material-ui/core/Hidden';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
+import auth from '../../auth';
+import logo from '../../images/sckedio-logo.png';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
     },
     menuButton: {
-        // marginRight: theme.spacing(2),
         marginLeft: theme.spacing(0),
     },
     mobileRoleButton: {
@@ -59,9 +59,6 @@ const NavBar = (props) => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'), { noSsr: true });
     const [currentLocationURL, setCurrentLocationURL] = React.useState(location.pathname);
-    // const [currentAccountType, setCurrentAccountType] = React.useState('Buyer');
-    // const roles = ['Buyer', 'Designer', 'Manufacturer'];
-    // const loggedIn = props.loggedIn;
 
     const navItems = [
         {
@@ -80,10 +77,6 @@ const NavBar = (props) => {
             itemName: 'Build',
             itemPath: '/build'
         },
-        // {
-        // itemName: 'About',
-        // itemPath: '/about'
-        // }
     ];
 
     const handleMenu = (event) => {
@@ -115,8 +108,6 @@ const NavBar = (props) => {
     return (
         <Grid container className={classes.root}>
             <AppBar
-                // position="fixed"
-                // color="#ffffff"
                 position="static"
                 color="transparent"
             >
@@ -230,13 +221,6 @@ const NavBar = (props) => {
                                                         Profile
                                             </Typography>
                                                 </MenuItem>
-                                                {/* <MenuItem onClick={() => handleLogout()}>
-                                                    <Typography
-                                                        color='error'
-                                                    >
-                                                        Log Out
-                                                    </Typography>
-                                                </MenuItem> */}
                                             </div>
                                         ) :
                                         (<MenuItem onClick={() => handleMenuClick('/login')}>

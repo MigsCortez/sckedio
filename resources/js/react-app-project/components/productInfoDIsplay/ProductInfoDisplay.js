@@ -1,22 +1,15 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles((theme) => ({
-    // accounts: {
-    //     marginTop: theme.spacing(2)
-    // },
-    // backgroundColor: {
-    //     backgroundColor: 'blue'
-    // },
-    // bold: {
-    //     fontWeight: 500
-    // },
     currentProductThumbnail: {
         maxWidth: 50,
         marginRight: theme.spacing(1),
@@ -45,28 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-// const convertCategory = (number) => {
-//     if (number === 1) {
-//         return 'Clothing/Accessories'
-//     } else if (number === 2) {
-//         return 'Toys/Games'
-//     } else if (number == 3) {
-//         return 'Technology'
-//     } else if (number === 4) {
-//         return 'Transport'
-//     } else if (number === 5) {
-//         return 'Furniture/Interior Design'
-//     } else if (number === 6) {
-//         return 'Art'
-//     } else if (number === 7) {
-//         return 'Home Goods'
-//     } else if (number === 8) {
-//         return 'Everyday Use'
-//     } else if (number === 9) {
-//         return 'Other'
-//     }
-// };
-
 const ProductInfoDisplay = (props) => {
     const classes = useStyles();
     const {
@@ -77,15 +48,6 @@ const ProductInfoDisplay = (props) => {
         loggedIn,
         currentRoleType
     } = props;
-    // const {
-    //     designer,
-    //     productTitle,
-    //     interest,
-    //     image,
-    //     itemNum,
-    //     category,
-    //     description
-    // } = props.product;
     const designer = props.product.username;
     const productTitle = props.product.idea_name;
     const interest = props.product.interests;
@@ -134,7 +96,6 @@ const ProductInfoDisplay = (props) => {
                         </Grid>
                     </Grid>
                     <Grid container item xs={12} md={5} className={classes.infoSection}>
-                        {/* <div className={classes.infoSection}> */}
                         <Grid item xs={12}>
                             <Typography variant='h4' gutterBottom>
                                 {productTitle}
@@ -160,7 +121,6 @@ const ProductInfoDisplay = (props) => {
                                 <img className={individualImage.active ? classes.currentProductThumbnail : classes.productThumbnail} src={individualImage.src} key={i} data-key={i} onClick={event => handleImageClick(event.target)} />
                             ))}
                         </Grid>
-                        {/* </div> */}
                     </Grid>
                     <Grid container item xs={12} md={3} justify='center'>
                         <Box border={1} width={400} height={200} borderRadius='borderRadius' borderColor='grey.500' p={2}>

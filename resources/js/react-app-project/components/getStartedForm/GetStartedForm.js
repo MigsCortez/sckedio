@@ -1,9 +1,10 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Stepper from '@material-ui/core/Stepper';
@@ -15,7 +16,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import { DropzoneArea } from 'material-ui-dropzone';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -75,24 +76,6 @@ function getStepContent(step, props) {
         categoriesArray,
         ideaTypesArray
     } = props;
-
-    // const [categoryValue, setCategory] = React.useState('clothing-accessories');
-
-    // const handleCategoryChange = (event) => {
-    //     setCategory(event.target.value);
-    // };
-
-    // const [includedValue, setIncluded] = React.useState('idea');
-
-    // const handleIncludedChange = (event) => {
-    //     setIncluded(event.target.value);
-    // };
-
-    // const [ideaLimitValue, setIdeaLimit] = React.useState('unlimited');
-
-    // const handleIdeaLimitChange = (event) => {
-    //     setIdeaLimit(event.target.value);
-    // };
 
     switch (step) {
 
@@ -173,18 +156,8 @@ function getStepContent(step, props) {
                                         <Box>
                                             <Typography border={5}>Upload any publicly available files</Typography>
                                         </Box>
-                                        {/* <input
-                                            type='file'
-                                            id='public-files'
-                                            name='public-files'
-                                            onChange={event=> {
-                                                setPublicFiles(event.target.files);
-                                            }}
-                                        /> */}
 
                                         <DropzoneArea
-                                            // dropzoneText={'Upload any publicly available files'}
-                                            // onChange={(files) => console.log('Files:', files)}
                                             onChange={files => setPublicFiles(files)}
                                         />
                                     </Box>
@@ -198,8 +171,6 @@ function getStepContent(step, props) {
                                             <Typography border={5}>Upload any private files</Typography>
                                         </Box>
                                         <DropzoneArea
-                                            // dropzoneText={'Upload any private files'}
-                                            // onChange={(files) => console.log('Files:', files)}
                                             onChange={files => setPrivateFiles(files)}
                                         />
                                     </Box>
@@ -228,15 +199,6 @@ function getStepContent(step, props) {
                                     onChange={event => setTotalCost(event.target.value)}
                                 />
                             </div>
-                            {/* <div>
-                            <FormControl component="fieldset">
-                                <FormLabel component="legend">How many times can your idea be bought?</FormLabel>
-                                <RadioGroup aria-label="idea-limit" name="idea-limit1" value={ideaLimitValue} onChange={handleIdeaLimitChange}>
-                                    <FormControlLabel value="unlimited" control={<Radio />} label="Unlimited" />
-                                    <FormControlLabel value="limited" control={<Radio />} label="A limited number" />
-                                </RadioGroup>
-                            </FormControl>
-                        </div> */}
                         </form>
                     </Grid>
                 </div>
@@ -305,7 +267,7 @@ const GetStartedForm = (props) => {
 
     return (
         <div className={classes.root}>
-            <Stepper activeStep={activeStep}  orientation={ isMobile ? 'vertical' : 'horizontal'} >
+            <Stepper activeStep={activeStep} orientation={isMobile ? 'vertical' : 'horizontal'} >
                 {steps.map((label, index) => {
                     const stepProps = {};
                     const labelProps = {};
@@ -334,9 +296,7 @@ const GetStartedForm = (props) => {
                     </div>
                 ) : (
                     <div>
-                        {/* <Typography className={classes.instructions}> */}
                         {getStepContent(activeStep, props)}
-                        {/* </Typography> */}
                         <div>
                             <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
                                 Back
