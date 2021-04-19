@@ -225,6 +225,8 @@ const ProfileEditModal = (props) => {
         newUsername,
         newFirstName,
         newLastName,
+        newBio,
+        newSocialMedia,
         newEmail,
         newStreet,
         newCity,
@@ -234,6 +236,7 @@ const ProfileEditModal = (props) => {
         newDesigner,
         newManufacturer
     } = props.newUserInfo;
+
     const {
         open,
         handleClose,
@@ -330,6 +333,39 @@ const ProfileEditModal = (props) => {
                                     )}
                                     error={usernameHelper === '' ? false : true}
                                     helperText={usernameHelper}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="bio"
+                                    label="Bio"
+                                    variant='outlined'
+                                    type="text"
+                                    value={newBio ? newBio : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newBio: event.target.value
+                                        }
+                                    )}
+
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="social-media"
+                                    label="Social Media"
+                                    variant='outlined'
+                                    type="url"
+                                    value={newSocialMedia ? newSocialMedia : ''}
+                                    onChange={event => setNewUserInfo(
+                                        {
+                                            ...newUserInfo,
+                                            newSocialMedia: event.target.value
+                                        }
+                                    )}
                                     fullWidth
                                 />
                             </Grid>

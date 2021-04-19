@@ -10,9 +10,11 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserInformationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SocialLinkController;
 use App\Http\Controllers\OAuthTokenController;
 use App\Http\Controllers\SubscriberController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\DesignRatingController;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -23,6 +25,8 @@ Route::get('users/', [ApiController::class, 'list']);
 Route::get('categories', [ApiController::class, 'getCategories']);
 Route::get('idea-types', [ApiController::class, 'getIdeaTypes']);
 Route::get('stock-types', [ApiController::class, 'getStockTypes']);
+
+
 
 Route::group([
     'prefix' => 'subscriber'
@@ -62,10 +66,19 @@ Route::group([
         Route::get('show-user', [UserController::class, 'show']);
         Route::put('update-user', [UserController::class, 'update']);
 
-        /**
-         * Designers routes. This is a temporary placeholder, 
-         * we want each role to have limited access depending on  their role.
-         */
+        //SocialLinkController
+        Route::resource('social-link', SocialLinkController::class);
+    });
+});
+
+Route::group([
+    'prefix' => 'auth'
+], function() {
+    Route::group([
+        'middleware' => ['auth:api'], 'prefix' => 'design-rating'
+    ], function() {
+        Route::post('store', [DesignRatingController::class, 'store']);
+        Route::get('show/{id}', [DesignRatingController::class, 'show']);
     });
 });
 
@@ -80,7 +93,7 @@ Route::group([
     ], function(){
         Route::get('list', [DesignController::class, 'list']); // Should be able to view for autheticated users.
         Route::get('show/{id}', [DesignController::class, 'show']); // Should be able to view for autheticated users.
-        
+
         Route::group([
             'middleware' => ['role:designer']
         ], function() {

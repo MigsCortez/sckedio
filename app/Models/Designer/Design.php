@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Designer\DesignFile;
 use App\Models\BuyerQueue;
+use App\Models\DesignRating;
 
 class Design extends Model
 {
@@ -21,10 +22,14 @@ class Design extends Model
         'updated_at',
     ];
 
-
     public function user()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    public function design_rating()
+    {
+        return $this->hasMany(DesingRating::class, 'design_id');
     }
 
     public function public_files()

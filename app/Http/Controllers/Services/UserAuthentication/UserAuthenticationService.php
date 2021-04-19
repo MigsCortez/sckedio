@@ -83,10 +83,11 @@ class UserAuthenticationService
 
     public function findCurrentUser()
     {
-        $user = Auth::user();
-        $user_information = User::find($user->id)->user_information;
-        $role = $user->roles->pluck('name');
-        
+        $user = auth()->user();
+        $userInformation = User::find($user->id)->user_information;
+        $roles = $user->getRoleNames();
+        $socialLinks = $user->social_link;
+
         if(!empty(auth()->user()->activeDisplayPicture))
         {
             $user->display_picture = auth()->user()->activeDisplayPicture->pluck('url')->first();
@@ -97,9 +98,10 @@ class UserAuthenticationService
         }
 
         return response()->json([
-            $user, 
-            $user_information,
-            $role,
+            $user,
+            $userInformation,
+            $roles,
+            'social_links' => $socialLinks
         ], 200);
     }
 }

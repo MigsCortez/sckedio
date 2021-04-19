@@ -33,6 +33,11 @@ class UpdateRequest extends FormRequest
     {
         return [
             'display_picture' => 'image|mimes:jpeg,jpg,png,gif|nullable|max:204800',
+            'bio' => 'nullable|string',
+            'social_medias' => 'nullable|array',
+            'social_medias.*' => 'nullable|string',
+            'social_links' => 'nullable|array',
+            'social_links.*' => 'nullable|string|distinct:strict',
             'username' => 'nullable|string',
             'email' => 'nullable|string',
             'first_name' => 'nullable|string',
